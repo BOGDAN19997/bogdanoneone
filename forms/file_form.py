@@ -25,8 +25,8 @@ class CreateFile(FlaskForm):
         validators.DataRequired("Please enter file Rating.")
 
     ])
-    project_id = IntegerField("Project id: ", [
-        validators.DataRequired("Please enter file Project id.")
+    command_list_id = IntegerField("Command_List id: ", [
+        validators.DataRequired("Please enter file Command_List id.")
 
     ])
     submit = SubmitField("Save")

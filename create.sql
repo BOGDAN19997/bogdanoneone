@@ -1,4 +1,4 @@
-CREATE TABLE Users (
+CREATE TABLE Voice_Patterns (
 	ID SERIAL PRIMARY KEY,
 	Login varchar(30) UNIQUE NOT NULL,
 	Password varchar(50) NOT NULL,
@@ -8,27 +8,27 @@ CREATE TABLE Users (
 	Created timestamp
 );
 
-CREATE TABLE Reposytoty ( 
+CREATE TABLE Text_Data ( 
 	ID SERIAL PRIMARY KEY,
 	Name varchar(30) NOT NULL,
 	Description text, 
 	Created timestamp,
-	CountOfProjects int NOT NULL DEFAULT 0,
-	User_ID int,
-	CONSTRAINT FK_User_ID FOREIGN KEY (User_ID)
-      REFERENCES Users (ID),
-	CONSTRAINT Check_Count_Proj CHECK (CountOfProjects >= 0)
+	CountOfCommand_Lists int NOT NULL DEFAULT 0,
+	Voice_Pattern_ID int,
+	CONSTRAINT FK_Voice_Pattern_ID FOREIGN KEY (Voice_Pattern_ID)
+      REFERENCES Voice_Patterns (ID),
+	CONSTRAINT Check_Count_Proj CHECK (CountOfCommand_Lists >= 0)
 );
 
-CREATE TABLE Project ( 
+CREATE TABLE Command_List ( 
 	ID SERIAL PRIMARY KEY,
 	Name varchar(30) NOT NULL,
 	Description text, 
 	Created timestamp,
 	CountOfFiles int NOT NULL DEFAULT 0,
-	Reposytoty_ID int,
-	CONSTRAINT FK_Reposytoty_ID FOREIGN KEY (Reposytoty_ID)
-      REFERENCES Reposytoty (ID),
+	Text_Data_ID int,
+	CONSTRAINT FK_Text_Data_ID FOREIGN KEY (Text_Data_ID)
+      REFERENCES Text_Data (ID),
 	CONSTRAINT Check_Count_File CHECK (CountOfFiles >= 0)
 );
 
@@ -40,9 +40,9 @@ CREATE TABLE Files (
 	Versions varchar(30) NOT NULL DEFAULT '1.0', 
 	Created timestamp,
 	Rating real NOT NULL,
-	Project_ID int,
-	CONSTRAINT FK_Project_ID FOREIGN KEY (Project_ID)
-      REFERENCES Project (ID)
+	Command_List_ID int,
+	CONSTRAINT FK_Command_List_ID FOREIGN KEY (Command_List_ID)
+      REFERENCES Command_List (ID)
 );
 
---ALTER TABLE Users ADD CONSTRAINT Chack_correct_email CHECK (Email like '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$');
+--ALTER TABLE Voice_Patterns ADD CONSTRAINT Chack_correct_email CHECK (Email like '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$');

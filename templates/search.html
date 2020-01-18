@@ -19,12 +19,12 @@
                 {{ form.hidden_tag() }}
 
              <div class="form-group">
-                {{ form.nameOfProject.label }}
-                {{ form.nameOfProject(class_="form-control") }}
+                {{ form.nameOfCommand_List.label }}
+                {{ form.nameOfCommand_List(class_="form-control") }}
 
-                {% if form.nameOfProject.errors%}
+                {% if form.nameOfCommand_List.errors%}
                     <div class="alert alert-danger" role="alert">
-                        {% for message in form.nameOfProject.errors %}
+                        {% for message in form.nameOfCommand_List.errors %}
                              <div>{{ message }}</div>
                         {% endfor %}
                     </div>

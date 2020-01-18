@@ -1,2 +1,2 @@
-ALTER TABLE Files ADD CONSTRAINT FK_Project_ID FOREIGN KEY (Project_ID)
-      REFERENCES Project (ID)
+ALTER TABLE Files ADD CONSTRAINT FK_Command_List_ID FOREIGN KEY (Command_List_ID)
+      REFERENCES Command_List (ID)

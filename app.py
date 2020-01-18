@@ -6,9 +6,9 @@ from sqlalchemy import Column, Integer, String, Date, ForeignKey, DateTime, Text
     UniqueConstraint
 from sqlalchemy.orm import relationship
 import datetime
-from forms.reposytory_form import CreateReposytory, EditReposytory
-from forms.project_form import CreateProject, EditProject
-from forms.user_form import CreateUser, EditUser
+from forms.tex_data_form import CreateTex_data, EditTex_data
+from forms.command_list_form import CreateCommand_List, EditCommand_List
+from forms.Voice_pattern_form import CreateVoice_Pattern, EditVoice_Pattern
 from forms.file_form import CreateFile, EditFile
 from forms.searchform import CreateQuery
 import plotly
@@ -25,52 +25,48 @@ app.secret_key = 'key'
 
 ENV = 'prod'
 
-if ENV == 'dev':
-    app.debug = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1111@localhost/Joseph'
-else:
-    app.debug = False
-    app.config[
-        'SQLALCHEMY_DATABASE_URI'] = 'postgres://qexacebxlyoflv:7f1848d692d8a690603199584eaf0f697e63459f365c69074da6ec8ca508e9fc@ec2-107-21-126-201.compute-1.amazonaws.com:5432/ddj3djvlda7rga'
+
+app.config[
+        'SQLALCHEMY_DATABASE_URI'] = 'postgres://owwiyftiqxmksq:09737a44f178143dc8d174998458a0ba650d51ab42d08db12d24a44f775a26c6@ec2-3-220-86-239.compute-1.amazonaws.com:5432/d2b85aj2avnad1'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
 
-class ormUsers(db.Model):
-    __tablename__ = 'users'
-    id = Column(Integer, Sequence('users_id_seq', start=1, increment=1), primary_key=True)
-    login = Column(String(30), UniqueConstraint(name='users_login_key'), nullable=False)
+class ormVoice_Patterns(db.Model):
+    __tablename__ = 'Voice_patterns'
+    id = Column(Integer, Sequence('Voice_patterns_id_seq', start=1, increment=1), primary_key=True)
+    login = Column(String(30), UniqueConstraint(name='Voice_patterns_login_key'), nullable=False)
     password = Column(String(50), nullable=False)
-    email = Column(String(50), UniqueConstraint(name='users_email_key'), nullable=False)
+    email = Column(String(50), UniqueConstraint(name='Voice_patterns_email_key'), nullable=False)
     lastname = Column(String(30))
     firstname = Column(String(30))
     created = Column(DateTime, default=datetime.datetime.now())
-    userRelationShip = relationship("ormReposytoty", back_populates="user_Relation_Ship")
+    Voice_patternRelationShip = relationship("ormText_Data", back_populates="Voice_pattern_Relation_Ship")
 
 
-class ormReposytoty(db.Model):
-    __tablename__ = 'reposytoty'
-    id = Column(Integer, Sequence('reposytoty_id_seq', start=1, increment=1), primary_key=True)
+class ormText_Data(db.Model):
+    __tablename__ = 'text_data'
+    id = Column(Integer, Sequence('text_data_id_seq', start=1, increment=1), primary_key=True)
     name = Column(String(30), nullable=False)
     description = Column(Text)
     created = Column(DateTime, default=datetime.datetime.now())
-    countofprojects = Column(Integer, CheckConstraint('countofprojects >= 0'), nullable=False, default=0)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    user_Relation_Ship = relationship("ormUsers", back_populates="userRelationShip")
-    reposytotyRelationShip = relationship("ormProject", back_populates="reposytoty_Relation_Ship")
+    countofcommand_lists = Column(Integer, CheckConstraint('countofcommand_lists >= 0'), nullable=False, default=0)
+    Voice_pattern_id = Column(Integer, ForeignKey('Voice_patterns.id'))
+    Voice_pattern_Relation_Ship = relationship("ormVoice_Patterns", back_populates="Voice_patternRelationShip")
+    text_dataRelationShip = relationship("ormCommand_List", back_populates="text_data_Relation_Ship")
 
 
-class ormProject(db.Model):
-    __tablename__ = 'project'
-    id = Column(Integer, Sequence('project_id_seq', start=1, increment=1), primary_key=True)
+class ormCommand_List(db.Model):
+    __tablename__ = 'command_list'
+    id = Column(Integer, Sequence('command_list_id_seq', start=1, increment=1), primary_key=True)
     name = Column(String(30), nullable=False)
     description = Column(Text)
     created = Column(DateTime, default=datetime.datetime.now())
     countoffiles = Column(Integer, CheckConstraint('countoffiles >= 0'), nullable=False, default=0)
-    reposytoty_id = Column(Integer, ForeignKey('reposytoty.id'))
-    reposytoty_Relation_Ship = relationship("ormReposytoty", back_populates="reposytotyRelationShip")
+    text_data_id = Column(Integer, ForeignKey('text_data.id'))
+    text_data_Relation_Ship = relationship("ormText_Data", back_populates="text_dataRelationShip")
     fileRelationShip = relationship("ormFiles", back_populates="file_Relation_Ship")
 
 
@@ -83,8 +79,8 @@ class ormFiles(db.Model):
     versions = Column(String(30), nullable=False, default='1.0')
     created = Column(DateTime, default=datetime.datetime.now())
     rating = Column(Float)
-    project_id = Column(Integer, ForeignKey('project.id'))
-    file_Relation_Ship = relationship("ormProject", back_populates="fileRelationShip")
+    command_list_id = Column(Integer, ForeignKey('command_list.id'))
+    file_Relation_Ship = relationship("ormCommand_List", back_populates="fileRelationShip")
 
 
 @app.route('/')
@@ -93,37 +89,37 @@ def hello_world():
     return render_template('index.html', action="/")
 
 
-@app.route('/all/user')
-def all_user():
-    name = "user"
-    user_db = db.session.query(ormUsers).all()
-    user = []
-    for row in user_db:
-        user.append({"id": row.id, "login": row.login, "password": row.password, "email": row.email,
+@app.route('/all/Voice_pattern')
+def all_Voice_pattern():
+    name = "Voice_pattern"
+    Voice_pattern_db = db.session.query(ormVoice_Patterns).all()
+    Voice_pattern = []
+    for row in Voice_pattern_db:
+        Voice_pattern.append({"id": row.id, "login": row.login, "password": row.password, "email": row.email,
                      "lastname": row.lastname, "firstname": row.firstname, "created": row.created})
-    return render_template('allUser.html', name=name, users=user, action="/all/user")
+    return render_template('allVoice_Pattern.html', name=name, Voice_patterns=Voice_pattern, action="/all/Voice_pattern")
 
 
-@app.route('/all/reposytory')
-def all_reposytory():
-    name = "reposytory"
-    reposytory_db = db.session.query(ormReposytoty).all()
-    reposytory = []
-    for row in reposytory_db:
-        reposytory.append({"id": row.id, "name": row.name, "description": row.description, "created": row.created,
-                           "countofprojects": row.countofprojects, "user_id": row.user_id})
-    return render_template('allReposytory.html', name=name, reposytory=reposytory, action="/all/reposytory")
+@app.route('/all/tex_data')
+def all_tex_data():
+    name = "tex_data"
+    tex_data_db = db.session.query(ormText_Data).all()
+    tex_data = []
+    for row in tex_data_db:
+        tex_data.append({"id": row.id, "name": row.name, "description": row.description, "created": row.created,
+                           "countofcommand_lists": row.countofcommand_lists, "Voice_pattern_id": row.Voice_pattern_id})
+    return render_template('allTex_data.html', name=name, tex_data=tex_data, action="/all/tex_data")
 
 
-@app.route('/all/project')
-def all_project():
-    name = "project"
-    project_db = db.session.query(ormProject).all()
-    project = []
-    for row in project_db:
-        project.append({"id": row.id, "name": row.name, "description": row.description, "created": row.created,
-                        "countoffiles": row.countoffiles, "reposytoty_id": row.reposytoty_id})
-    return render_template('allProject.html', name=name, project=project, action="/all/project")
+@app.route('/all/command_list')
+def all_command_list():
+    name = "command_list"
+    command_list_db = db.session.query(ormCommand_List).all()
+    command_list = []
+    for row in command_list_db:
+        command_list.append({"id": row.id, "name": row.name, "description": row.description, "created": row.created,
+                        "countoffiles": row.countoffiles, "text_data_id": row.text_data_id})
+    return render_template('allCommand_List.html', name=name, command_list=command_list, action="/all/command_list")
 
 
 @app.route('/all/file')
@@ -134,26 +130,26 @@ def all_file():
     for row in file_db:
         file.append({"id": row.id, "name": row.name, "file_text": row.file_text, "expansion": row.expansion,
                      "versions": row.versions,
-                     "created": row.created, "rating": row.rating, "project_id": row.project_id})
+                     "created": row.created, "rating": row.rating, "command_list_id": row.command_list_id})
     return render_template('allFile.html', name=name, file=file, action="/all/file")
 
 
-@app.route('/create/user', methods=['GET', 'POST'])
-def create_user():
-    form = CreateUser()
+@app.route('/create/Voice_pattern', methods=['GET', 'POST'])
+def create_Voice_pattern():
+    form = CreateVoice_Pattern()
 
     if request.method == 'POST':
         if form.validate() == False:
-            return render_template('create_user.html', form=form, form_name="New user", action="create/user")
+            return render_template('create_Voice_pattern.html', form=form, form_name="New Voice_pattern", action="create/Voice_pattern")
         else:
 
-            ids = db.session.query(ormUsers).all()
+            ids = db.session.query(ormVoice_Patterns).all()
             check = True
             for row in ids:
                 if row.login == form.login.data:
                     check = False
 
-            new_var = ormUsers(
+            new_var = ormVoice_Patterns(
 
                 login=form.login.data,
                 password=form.password.data,
@@ -165,72 +161,72 @@ def create_user():
             if check:
                 db.session.add(new_var)
                 db.session.commit()
-                return redirect(url_for('all_user'))
+                return redirect(url_for('all_Voice_pattern'))
             else:
-                form.login.errors = "this user already exists"
+                form.login.errors = "this Voice_pattern already exists"
 
-    return render_template('create_user.html', form=form, form_name="New user", action="create/user")
+    return render_template('create_Voice_pattern.html', form=form, form_name="New Voice_pattern", action="create/Voice_pattern")
 
 
-@app.route('/create/reposytory', methods=['GET', 'POST'])
-def create_reposytory():
-    form = CreateReposytory()
+@app.route('/create/tex_data', methods=['GET', 'POST'])
+def create_tex_data():
+    form = CreateTex_data()
 
     if request.method == 'POST':
         if form.validate() == False:
-            return render_template('create_reposytory.html', form=form, form_name="New reposytory",
-                                   action="create/reposytory")
+            return render_template('create_tex_data.html', form=form, form_name="New tex_data",
+                                   action="create/tex_data")
         else:
 
-            ids = db.session.query(ormUsers).all()
+            ids = db.session.query(ormVoice_Patterns).all()
             check = False
             for row in ids:
-                if row.id == form.user_id.data:
+                if row.id == form.Voice_pattern_id.data:
                     check = True
 
-            new_var = ormReposytoty(
+            new_var = ormText_Data(
 
                 name=form.name.data,
                 description=form.description.data,
-                countofprojects=form.countofprojects.data,
-                user_id=form.user_id.data
+                countofcommand_lists=form.countofcommand_lists.data,
+                Voice_pattern_id=form.Voice_pattern_id.data
             )
             if check:
                 db.session.add(new_var)
                 db.session.commit()
-                return redirect(url_for('all_reposytory'))
+                return redirect(url_for('all_tex_data'))
 
-    return render_template('create_reposytory.html', form=form, form_name="New reposytory", action="create/reposytory")
+    return render_template('create_tex_data.html', form=form, form_name="New tex_data", action="create/tex_data")
 
 
-@app.route('/create/project', methods=['GET', 'POST'])
-def create_project():
-    form = CreateProject()
+@app.route('/create/command_list', methods=['GET', 'POST'])
+def create_command_list():
+    form = CreateCommand_List()
 
     if request.method == 'POST':
         if form.validate() == False:
-            return render_template('create_project.html', form=form, form_name="New project", action="create/project")
+            return render_template('create_command_list.html', form=form, form_name="New command_list", action="create/command_list")
         else:
 
-            ids = db.session.query(ormReposytoty).all()
+            ids = db.session.query(ormText_Data).all()
             check = False
             for row in ids:
-                if row.id == form.reposytoty_id.data:
+                if row.id == form.text_data_id.data:
                     check = True
 
-            new_var = ormProject(
+            new_var = ormCommand_List(
 
                 name=form.name.data,
                 description=form.description.data,
                 countoffiles=form.countoffiles.data,
-                reposytoty_id=form.reposytoty_id.data
+                text_data_id=form.text_data_id.data
             )
             if check:
                 db.session.add(new_var)
                 db.session.commit()
-                return redirect(url_for('all_project'))
+                return redirect(url_for('all_command_list'))
 
-    return render_template('create_project.html', form=form, form_name="New project", action="create/project")
+    return render_template('create_command_list.html', form=form, form_name="New command_list", action="create/command_list")
 
 
 @app.route('/create/file', methods=['GET', 'POST'])
@@ -242,10 +238,10 @@ def create_file():
             return render_template('create_file.html', form=form, form_name="New file", action="create/file")
         else:
 
-            ids = db.session.query(ormProject).all()
+            ids = db.session.query(ormCommand_List).all()
             check = False
             for row in ids:
-                if row.id == form.project_id.data:
+                if row.id == form.command_list_id.data:
                     check = True
 
             new_var = ormFiles(
@@ -255,7 +251,7 @@ def create_file():
                 expansion=form.expansion.data,
                 versions=form.versions.data,
                 rating=form.rating.data,
-                project_id=form.project_id.data
+                command_list_id=form.command_list_id.data
             )
             if check:
                 db.session.add(new_var)
@@ -265,44 +261,44 @@ def create_file():
     return render_template('create_file.html', form=form, form_name="New file", action="create/file")
 
 
-@app.route('/delete/user', methods=['GET'])
-def delete_user():
+@app.route('/delete/Voice_pattern', methods=['GET'])
+def delete_Voice_pattern():
     id = request.args.get('id')
 
-    result = db.session.query(ormUsers).filter(ormUsers.id == id).one()
+    result = db.session.query(ormVoice_Patterns).filter(ormVoice_Patterns.id == id).one()
 
     db.session.delete(result)
     db.session.commit()
 
-    return redirect(url_for('all_user'))
+    return redirect(url_for('all_Voice_pattern'))
 
 
-@app.route('/delete/reposytory', methods=['GET'])
-def delete_reposytory():
+@app.route('/delete/tex_data', methods=['GET'])
+def delete_tex_data():
     id = request.args.get('id')
 
-    result = db.session.query(ormReposytoty).filter(ormReposytoty.id == id).one()
+    result = db.session.query(ormText_Data).filter(ormText_Data.id == id).one()
 
     # db.session.delete(result)
     #
-    # result = db.session.query(ormProject).filter(ormProject.reposytoty_id == id).one()
+    # result = db.session.query(ormCommand_List).filter(ormCommand_List.text_data_id == id).one()
 
     db.session.delete(result)
     db.session.commit()
 
-    return redirect(url_for('all_reposytory'))
+    return redirect(url_for('all_tex_data'))
 
 
-@app.route('/delete/project', methods=['GET'])
-def delete_project():
+@app.route('/delete/command_list', methods=['GET'])
+def delete_command_list():
     id = request.args.get('id')
 
-    result = db.session.query(ormProject).filter(ormProject.id == id).one()
+    result = db.session.query(ormCommand_List).filter(ormCommand_List.id == id).one()
 
     db.session.delete(result)
     db.session.commit()
 
-    return redirect(url_for('all_project'))
+    return redirect(url_for('all_command_list'))
 
 
 @app.route('/delete/file', methods=['GET'])
@@ -317,32 +313,32 @@ def delete_file():
     return redirect(url_for('all_file'))
 
 
-@app.route('/edit/user', methods=['GET', 'POST'])
-def edit_user():
-    form = EditUser()
+@app.route('/edit/Voice_pattern', methods=['GET', 'POST'])
+def edit_Voice_pattern():
+    form = EditVoice_Pattern()
     id = request.args.get('id')
     if request.method == 'GET':
 
-        users = db.session.query(ormUsers).filter(ormUsers.id == id).one()
+        Voice_patterns = db.session.query(ormVoice_Patterns).filter(ormVoice_Patterns.id == id).one()
 
-        form.login.data = users.login
-        form.password.data = users.password
-        form.email.data = users.email
-        form.lastname.data = users.lastname
-        form.firstname.data = users.firstname
+        form.login.data = Voice_patterns.login
+        form.password.data = Voice_patterns.password
+        form.email.data = Voice_patterns.email
+        form.lastname.data = Voice_patterns.lastname
+        form.firstname.data = Voice_patterns.firstname
 
-        return render_template('edit_user.html', form=form, form_name="Edit user",
-                               action="edit/user?id=" + id)
+        return render_template('edit_Voice_pattern.html', form=form, form_name="Edit Voice_pattern",
+                               action="edit/Voice_pattern?id=" + id)
 
 
     else:
 
         if form.validate() == False:
-            return render_template('edit_user.html', form=form, form_name="Edit user", action="edit/user?id=" + id)
+            return render_template('edit_Voice_pattern.html', form=form, form_name="Edit Voice_pattern", action="edit/Voice_pattern?id=" + id)
         else:
 
-            # find user
-            var = db.session.query(ormUsers).filter(ormUsers.id == id).one()
+            # find Voice_pattern
+            var = db.session.query(ormVoice_Patterns).filter(ormVoice_Patterns.id == id).one()
             print(var)
 
             # update fields from form data
@@ -354,70 +350,70 @@ def edit_user():
             var.firstname = form.firstname.data
             db.session.commit()
 
-            return redirect(url_for('all_user'))
+            return redirect(url_for('all_Voice_pattern'))
 
 
-@app.route('/edit/reposytory', methods=['GET', 'POST'])
-def edit_reposytory():
-    form = EditReposytory()
+@app.route('/edit/tex_data', methods=['GET', 'POST'])
+def edit_tex_data():
+    form = EditTex_data()
     id = request.args.get('id')
     if request.method == 'GET':
 
-        reposytory = db.session.query(ormReposytoty).filter(ormReposytoty.id == id).one()
+        tex_data = db.session.query(ormText_Data).filter(ormText_Data.id == id).one()
 
-        form.name.data = reposytory.name
-        form.description.data = reposytory.description
-        form.countofprojects.data = reposytory.countofprojects
+        form.name.data = tex_data.name
+        form.description.data = tex_data.description
+        form.countofcommand_lists.data = tex_data.countofcommand_lists
 
-        return render_template('edit_reposytory.html', form=form, form_name="Edit reposytory",
-                               action="edit/reposytory?id=" + id)
+        return render_template('edit_tex_data.html', form=form, form_name="Edit tex_data",
+                               action="edit/tex_data?id=" + id)
 
 
     else:
 
         if form.validate() == False:
-            return render_template('edit_reposytory.html', form=form, form_name="Edit reposytory",
-                                   action="edit/reposytory?id=" + id)
+            return render_template('edit_tex_data.html', form=form, form_name="Edit tex_data",
+                                   action="edit/tex_data?id=" + id)
         else:
 
-            # find user
-            var = db.session.query(ormReposytoty).filter(ormReposytoty.id == id).one()
+            # find Voice_pattern
+            var = db.session.query(ormText_Data).filter(ormText_Data.id == id).one()
             print(var)
 
             # update fields from form data
 
             var.name = form.name.data
             var.description = form.description.data
-            var.countofprojects = form.countofprojects.data
+            var.countofcommand_lists = form.countofcommand_lists.data
             db.session.commit()
 
-            return redirect(url_for('all_reposytory'))
+            return redirect(url_for('all_tex_data'))
 
 
-@app.route('/edit/project', methods=['GET', 'POST'])
-def edit_project():
-    form = EditProject()
+@app.route('/edit/command_list', methods=['GET', 'POST'])
+def edit_command_list():
+    form = EditCommand_List()
     id = request.args.get('id')
     if request.method == 'GET':
 
-        project = db.session.query(ormProject).filter(ormProject.id == id).one()
+        command_list = db.session.query(ormCommand_List).filter(ormCommand_List.id == id).one()
 
-        form.name.data = project.name
-        form.description.data = project.description
-        form.countoffiles.data = project.countoffiles
+        form.name.data = command_list.name
+        form.description.data = command_list.description
+        form.countoffiles.data = command_list.countoffiles
 
-        return render_template('edit_project.html', form=form, form_name="Edit project",
-                               action="edit/project?id=" + id)
+        return render_template('edit_command_list.html', form=form, form_name="Edit command_list",
+                               action="edit/command_list?id=" + id)
 
 
     else:
 
         if form.validate() == False:
-            return render_template('edit_project.html', form=form, form_name="Edit project", action="edit/project?id=" + id)
+            return render_template('edit_command_list.html', form=form, form_name="Edit command_list", action="edit/command_list?id=" + id)
         else:
 
-            # find user
-            var = db.session.query(ormProject).filter(ormProject.id == id).one()
+            # find Voice_pattern
+            var = db.session.query(ormCommand_List).filter(ormCommand_List.id == id).one()
             print(var)
 
             # update fields from form data
@@ -427,7 +423,7 @@ def edit_project():
             var.countoffiles = form.countoffiles.data
             db.session.commit()
 
-            return redirect(url_for('all_project'))
+            return redirect(url_for('all_command_list'))
 
 
 @app.route('/edit/file', methods=['GET', 'POST'])
@@ -453,7 +449,7 @@ def edit_file():
             return render_template('edit_file.html', form=form, form_name="Edit file", action="edit/file?id=" + id)
         else:
 
-            # find user
+            # find Voice_pattern
             var = db.session.query(ormFiles).filter(ormFiles.id == id).one()
             print(var)
 
@@ -479,9 +475,9 @@ def dashboard():
 
     query = (
         db.session.query(
-            func.count(ormUsers.id),
-            ormUsers.created
-        ).group_by(ormUsers.created)
+            func.count(ormVoice_Patterns.id),
+            ormVoice_Patterns.created
+        ).group_by(ormVoice_Patterns.created)
     ).all()
 
     dates, counts = zip(*query)
@@ -490,13 +486,13 @@ def dashboard():
         y=dates
     )
 
-    skills, user_count = zip(*query1)
+    skills, Voice_pattern_count = zip(*query1)
     pie = go.Pie(
-        labels=user_count,
+        labels=Voice_pattern_count,
         values=skills
     )
     print(dates, counts)
-    print(skills, user_count)
+    print(skills, Voice_pattern_count)
 
     data = {
         "bar": [bar],
@@ -511,8 +507,8 @@ def dashboard():
 def claster():
     df = pd.DataFrame()
 
-    for name, expansion in db.session.query(ormProject.name, ormFiles.expansion).join(ormFiles,
-                                                                                      ormProject.id == ormFiles.project_id):
+    for name, expansion in db.session.query(ormCommand_List.name, ormFiles.expansion).join(ormFiles,
+                                                                                      ormCommand_List.id == ormFiles.command_list_id):
         print(name, expansion)
         df = df.append({"name": name, "expansion": expansion}, ignore_index=True)
 
@@ -536,9 +532,9 @@ def claster():
             ormFiles.expansion
         ).group_by(ormFiles.expansion)
     ).all()
-    skills, user_count = zip(*query1)
+    skills, Voice_pattern_count = zip(*query1)
     pie = go.Pie(
-        labels=user_count,
+        labels=Voice_pattern_count,
         values=skills
     )
     data = {
@@ -552,9 +548,9 @@ def claster():
 @app.route('/regretion', methods=['GET', 'POST'])
 def correlation():
     df = pd.DataFrame()
-    for count_proj, count_files in db.session.query(ormReposytoty.countofprojects, ormProject.countoffiles).join(
-            ormReposytoty,
-            ormReposytoty.id == ormProject.reposytoty_id):
+    for count_proj, count_files in db.session.query(ormText_Data.countofcommand_lists, ormCommand_List.countoffiles).join(
+            ormText_Data,
+            ormText_Data.id == ormCommand_List.text_data_id):
         print(count_proj, count_files)
         df = df.append({"count_proj": float(count_proj), "count_files": float(count_files)}, ignore_index=True)
     db.session.close()
@@ -568,8 +564,8 @@ def correlation():
     test = scaler.transform(test_array)
     result = reg.predict(test)
 
-    query1 = db.session.query(ormReposytoty.countofprojects, ormProject.countoffiles).join(
-            ormReposytoty, ormReposytoty.id == ormProject.reposytoty_id).all()
+    query1 = db.session.query(ormText_Data.countofcommand_lists, ormCommand_List.countoffiles).join(
+            ormText_Data, ormText_Data.id == ormCommand_List.text_data_id).all()
     count_pr, count_fl = zip(*query1)
     scatter = go.Scatter(
         x=count_pr,
@@ -631,7 +627,7 @@ def search():
             list_event.clear()
             for id, name, Expansion in db.session.query(ormFiles.id, ormFiles.name, ormFiles.expansion
                                                         ):
-                if name == form.nameOfProject.data and Expansion == form.Expansion.data:
+                if name == form.nameOfCommand_List.data and Expansion == form.Expansion.data:
                     list_event.append(id)
 
             return redirect(url_for('searchList'))

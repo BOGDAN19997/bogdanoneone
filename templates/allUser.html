@@ -12,7 +12,7 @@
                 <table class="table table-bordered table-responsive-md table-striped text-center">
                     <thead>
                     <tr>
-                        <th class="text-center">User id</th>
+                        <th class="text-center">Voice_Pattern id</th>
                         <th class="text-center">Login</th>
                         <th class="text-center">Password</th>
                         <th class="text-center">Email</th>
@@ -24,7 +24,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for row in users %}
+                    {% for row in Voice_patterns %}
                         <tr>
                             <td class="pt-3-half" contenteditable="true">{{row.id}}</td>
                             <td class="pt-3-half" contenteditable="true">{{row.login}}</td>
@@ -35,12 +35,12 @@
                             <td class="pt-3-half" contenteditable="true">{{row.created}}</td>
                             <td>
                                 <span class="table-remove" ><button type="button" class="btn btn-danger btn-rounded btn-sm my-0" >
-                                    <a href="/edit/user?id={{ row.id }}">Edit</a></button></span>
+                                    <a href="/edit/Voice_pattern?id={{ row.id }}">Edit</a></button></span>
                             </td>
                             <td>
                                 <span class="table-remove"><button type="button"
                                                                    class="btn btn-danger btn-rounded btn-sm my-0" >
-                                    <a href="/delete/user?id={{ row.id }}">Remove</a></button></span>
+                                    <a href="/delete/Voice_pattern?id={{ row.id }}">Remove</a></button></span>
                             </td>
                         </tr>
                     {% endfor %}
@@ -50,7 +50,7 @@
                     </tbody>
                 </table>
             <span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0" allign="center">
-                                    <a href="/create/user">Create</a></button></span>
+                                    <a href="/create/Voice_pattern">Create</a></button></span>
             </div>
         </div>
     </div>
