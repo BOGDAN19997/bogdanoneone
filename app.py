@@ -8,7 +8,7 @@ from sqlalchemy.orm import relationship
 import datetime
 from forms.tex_data_form import CreateTex_data, EditTex_data
 from forms.command_list_form import CreateCommand_List, EditCommand_List
-from forms.Voice_pattern_form import CreateVoice_Pattern, EditVoice_Pattern
+from forms.voice_pattern_form import CreateVoice_Pattern, EditVoice_Pattern
 from forms.file_form import CreateFile, EditFile
 from forms.searchform import CreateQuery
 import plotly
