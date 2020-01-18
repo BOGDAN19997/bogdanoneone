@@ -24,7 +24,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for row in Voice_patterns %}
+                    {% for row in voice_patterns %}
                         <tr>
                             <td class="pt-3-half" contenteditable="true">{{row.id}}</td>
                             <td class="pt-3-half" contenteditable="true">{{row.login}}</td>
@@ -35,12 +35,12 @@
                             <td class="pt-3-half" contenteditable="true">{{row.created}}</td>
                             <td>
                                 <span class="table-remove" ><button type="button" class="btn btn-danger btn-rounded btn-sm my-0" >
-                                    <a href="/edit/Voice_pattern?id={{ row.id }}">Edit</a></button></span>
+                                    <a href="/edit/voice_pattern?id={{ row.id }}">Edit</a></button></span>
                             </td>
                             <td>
                                 <span class="table-remove"><button type="button"
                                                                    class="btn btn-danger btn-rounded btn-sm my-0" >
-                                    <a href="/delete/Voice_pattern?id={{ row.id }}">Remove</a></button></span>
+                                    <a href="/delete/voice_pattern?id={{ row.id }}">Remove</a></button></span>
                             </td>
                         </tr>
                     {% endfor %}
@@ -50,7 +50,7 @@
                     </tbody>
                 </table>
             <span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0" allign="center">
-                                    <a href="/create/Voice_pattern">Create</a></button></span>
+                                    <a href="/create/voice_pattern">Create</a></button></span>
             </div>
         </div>
     </div>

@@ -35,15 +35,15 @@ db = SQLAlchemy(app)
 
 
 class ormVoice_Patterns(db.Model):
-    __tablename__ = 'Voice_patterns'
-    id = Column(Integer, Sequence('Voice_patterns_id_seq', start=1, increment=1), primary_key=True)
-    login = Column(String(30), UniqueConstraint(name='Voice_patterns_login_key'), nullable=False)
+    __tablename__ = 'voice_patterns'
+    id = Column(Integer, Sequence('voice_patterns_id_seq', start=1, increment=1), primary_key=True)
+    login = Column(String(30), UniqueConstraint(name='voice_patterns_login_key'), nullable=False)
     password = Column(String(50), nullable=False)
-    email = Column(String(50), UniqueConstraint(name='Voice_patterns_email_key'), nullable=False)
+    email = Column(String(50), UniqueConstraint(name='voice_patterns_email_key'), nullable=False)
     lastname = Column(String(30))
     firstname = Column(String(30))
     created = Column(DateTime, default=datetime.datetime.now())
-    Voice_patternRelationShip = relationship("ormText_Data", back_populates="Voice_pattern_Relation_Ship")
+    voice_patternRelationShip = relationship("ormText_Data", back_populates="voice_pattern_Relation_Ship")
 
 
 class ormText_Data(db.Model):
@@ -53,8 +53,8 @@ class ormText_Data(db.Model):
     description = Column(Text)
     created = Column(DateTime, default=datetime.datetime.now())
     countofcommand_lists = Column(Integer, CheckConstraint('countofcommand_lists >= 0'), nullable=False, default=0)
-    Voice_pattern_id = Column(Integer, ForeignKey('Voice_patterns.id'))
-    Voice_pattern_Relation_Ship = relationship("ormVoice_Patterns", back_populates="Voice_patternRelationShip")
+    voice_pattern_id = Column(Integer, ForeignKey('voice_patterns.id'))
+    voice_pattern_Relation_Ship = relationship("ormVoice_Patterns", back_populates="voice_patternRelationShip")
     text_dataRelationShip = relationship("ormCommand_List", back_populates="text_data_Relation_Ship")
 
 
@@ -89,15 +89,15 @@ def hello_world():
     return render_template('index.html', action="/")
 
 
-@app.route('/all/Voice_pattern')
-def all_Voice_pattern():
-    name = "Voice_pattern"
-    Voice_pattern_db = db.session.query(ormVoice_Patterns).all()
-    Voice_pattern = []
-    for row in Voice_pattern_db:
-        Voice_pattern.append({"id": row.id, "login": row.login, "password": row.password, "email": row.email,
+@app.route('/all/voice_pattern')
+def all_voice_pattern():
+    name = "voice_pattern"
+    voice_pattern_db = db.session.query(ormVoice_Patterns).all()
+    voice_pattern = []
+    for row in voice_pattern_db:
+        voice_pattern.append({"id": row.id, "login": row.login, "password": row.password, "email": row.email,
                      "lastname": row.lastname, "firstname": row.firstname, "created": row.created})
-    return render_template('allVoice_Pattern.html', name=name, Voice_patterns=Voice_pattern, action="/all/Voice_pattern")
+    return render_template('allVoice_Pattern.html', name=name, voice_patterns=voice_pattern, action="/all/voice_pattern")
 
 
 @app.route('/all/tex_data')
@@ -107,7 +107,7 @@ def all_tex_data():
     tex_data = []
     for row in tex_data_db:
         tex_data.append({"id": row.id, "name": row.name, "description": row.description, "created": row.created,
-                           "countofcommand_lists": row.countofcommand_lists, "Voice_pattern_id": row.Voice_pattern_id})
+                           "countofcommand_lists": row.countofcommand_lists, "voice_pattern_id": row.voice_pattern_id})
     return render_template('allTex_data.html', name=name, tex_data=tex_data, action="/all/tex_data")
 
 
@@ -134,13 +134,13 @@ def all_file():
     return render_template('allFile.html', name=name, file=file, action="/all/file")
 
 
-@app.route('/create/Voice_pattern', methods=['GET', 'POST'])
-def create_Voice_pattern():
+@app.route('/create/voice_pattern', methods=['GET', 'POST'])
+def create_voice_pattern():
     form = CreateVoice_Pattern()
 
     if request.method == 'POST':
         if form.validate() == False:
-            return render_template('create_Voice_pattern.html', form=form, form_name="New Voice_pattern", action="create/Voice_pattern")
+            return render_template('create_voice_pattern.html', form=form, form_name="New voice_pattern", action="create/voice_pattern")
         else:
 
             ids = db.session.query(ormVoice_Patterns).all()
@@ -161,11 +161,11 @@ def create_Voice_pattern():
             if check:
                 db.session.add(new_var)
                 db.session.commit()
-                return redirect(url_for('all_Voice_pattern'))
+                return redirect(url_for('all_voice_pattern'))
             else:
-                form.login.errors = "this Voice_pattern already exists"
+                form.login.errors = "this voice_pattern already exists"
 
-    return render_template('create_Voice_pattern.html', form=form, form_name="New Voice_pattern", action="create/Voice_pattern")
+    return render_template('create_voice_pattern.html', form=form, form_name="New voice_pattern", action="create/voice_pattern")
 
 
 @app.route('/create/tex_data', methods=['GET', 'POST'])
@@ -181,7 +181,7 @@ def create_tex_data():
             ids = db.session.query(ormVoice_Patterns).all()
             check = False
             for row in ids:
-                if row.id == form.Voice_pattern_id.data:
+                if row.id == form.voice_pattern_id.data:
                     check = True
 
             new_var = ormText_Data(
@@ -189,7 +189,7 @@ def create_tex_data():
                 name=form.name.data,
                 description=form.description.data,
                 countofcommand_lists=form.countofcommand_lists.data,
-                Voice_pattern_id=form.Voice_pattern_id.data
+                voice_pattern_id=form.voice_pattern_id.data
             )
             if check:
                 db.session.add(new_var)
@@ -261,8 +261,8 @@ def create_file():
     return render_template('create_file.html', form=form, form_name="New file", action="create/file")
 
 
-@app.route('/delete/Voice_pattern', methods=['GET'])
-def delete_Voice_pattern():
+@app.route('/delete/voice_pattern', methods=['GET'])
+def delete_voice_pattern():
     id = request.args.get('id')
 
     result = db.session.query(ormVoice_Patterns).filter(ormVoice_Patterns.id == id).one()
@@ -270,7 +270,7 @@ def delete_Voice_pattern():
     db.session.delete(result)
     db.session.commit()
 
-    return redirect(url_for('all_Voice_pattern'))
+    return redirect(url_for('all_voice_pattern'))
 
 
 @app.route('/delete/tex_data', methods=['GET'])
@@ -313,31 +313,31 @@ def delete_file():
     return redirect(url_for('all_file'))
 
 
-@app.route('/edit/Voice_pattern', methods=['GET', 'POST'])
-def edit_Voice_pattern():
+@app.route('/edit/voice_pattern', methods=['GET', 'POST'])
+def edit_voice_pattern():
     form = EditVoice_Pattern()
     id = request.args.get('id')
     if request.method == 'GET':
 
-        Voice_patterns = db.session.query(ormVoice_Patterns).filter(ormVoice_Patterns.id == id).one()
+        voice_patterns = db.session.query(ormVoice_Patterns).filter(ormVoice_Patterns.id == id).one()
 
-        form.login.data = Voice_patterns.login
-        form.password.data = Voice_patterns.password
-        form.email.data = Voice_patterns.email
-        form.lastname.data = Voice_patterns.lastname
-        form.firstname.data = Voice_patterns.firstname
+        form.login.data = voice_patterns.login
+        form.password.data = voice_patterns.password
+        form.email.data = voice_patterns.email
+        form.lastname.data = voice_patterns.lastname
+        form.firstname.data = voice_patterns.firstname
 
-        return render_template('edit_Voice_pattern.html', form=form, form_name="Edit Voice_pattern",
-                               action="edit/Voice_pattern?id=" + id)
+        return render_template('edit_voice_pattern.html', form=form, form_name="Edit voice_pattern",
+                               action="edit/voice_pattern?id=" + id)
 
 
     else:
 
         if form.validate() == False:
-            return render_template('edit_Voice_pattern.html', form=form, form_name="Edit Voice_pattern", action="edit/Voice_pattern?id=" + id)
+            return render_template('edit_voice_pattern.html', form=form, form_name="Edit voice_pattern", action="edit/voice_pattern?id=" + id)
         else:
 
-            # find Voice_pattern
+            # find voice_pattern
             var = db.session.query(ormVoice_Patterns).filter(ormVoice_Patterns.id == id).one()
             print(var)
 
@@ -350,7 +350,7 @@ def edit_Voice_pattern():
             var.firstname = form.firstname.data
             db.session.commit()
 
-            return redirect(url_for('all_Voice_pattern'))
+            return redirect(url_for('all_voice_pattern'))
 
 
 @app.route('/edit/tex_data', methods=['GET', 'POST'])
@@ -376,7 +376,7 @@ def edit_tex_data():
                                    action="edit/tex_data?id=" + id)
         else:
 
-            # find Voice_pattern
+            # find voice_pattern
             var = db.session.query(ormText_Data).filter(ormText_Data.id == id).one()
             print(var)
 
@@ -412,7 +412,7 @@ def edit_command_list():
             return render_template('edit_command_list.html', form=form, form_name="Edit command_list", action="edit/command_list?id=" + id)
         else:
 
-            # find Voice_pattern
+            # find voice_pattern
             var = db.session.query(ormCommand_List).filter(ormCommand_List.id == id).one()
             print(var)
 
@@ -449,7 +449,7 @@ def edit_file():
             return render_template('edit_file.html', form=form, form_name="Edit file", action="edit/file?id=" + id)
         else:
 
-            # find Voice_pattern
+            # find voice_pattern
             var = db.session.query(ormFiles).filter(ormFiles.id == id).one()
             print(var)
 
@@ -486,13 +486,13 @@ def dashboard():
         y=dates
     )
 
-    skills, Voice_pattern_count = zip(*query1)
+    skills, voice_pattern_count = zip(*query1)
     pie = go.Pie(
-        labels=Voice_pattern_count,
+        labels=voice_pattern_count,
         values=skills
     )
     print(dates, counts)
-    print(skills, Voice_pattern_count)
+    print(skills, voice_pattern_count)
 
     data = {
         "bar": [bar],
@@ -532,9 +532,9 @@ def claster():
             ormFiles.expansion
         ).group_by(ormFiles.expansion)
     ).all()
-    skills, Voice_pattern_count = zip(*query1)
+    skills, voice_pattern_count = zip(*query1)
     pie = go.Pie(
-        labels=Voice_pattern_count,
+        labels=voice_pattern_count,
         values=skills
     )
     data = {

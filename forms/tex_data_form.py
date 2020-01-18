@@ -19,7 +19,7 @@ class CreateTex_data(FlaskForm):
                          validators=[NumberRange(min=0, message=">0"), DataRequired("Please enter your Count Of Command_Lists:.")]
                          )
 
-    Voice_pattern_id = IntegerField("Voice_Pattern id: ", [
+    voice_pattern_id = IntegerField("Voice_Pattern id: ", [
         validators.DataRequired("Please enter tex_data Voice_Pattern id.")
 
     ])
