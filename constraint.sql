@@ -1,0 +1,2 @@
+ALTER TABLE Files ADD CONSTRAINT FK_Project_ID FOREIGN KEY (Project_ID)
+      REFERENCES Project (ID)
