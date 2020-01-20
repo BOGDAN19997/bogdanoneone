@@ -45,12 +45,12 @@
                     </div>
 
                     <div class="form-group">
-                        {{ form.email.label }}
-                        {{ form.email(class_="form-control") }}
+                        {{ form.voice_hmm.label }}
+                        {{ form.voice_hmm(class_="form-control") }}
 
-                        {% if form.email.errors %}
+                        {% if form.voice_hmm.errors %}
                             <div class="alert alert-danger" role="alert">
-                                {% for message in form.email.errors %}
+                                {% for message in form.voice_hmm.errors %}
                                     <div>{{ message }}</div>
                                 {% endfor %}
                             </div>

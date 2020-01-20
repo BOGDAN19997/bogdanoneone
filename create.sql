@@ -2,7 +2,7 @@ CREATE TABLE Voice_Patterns (
 	ID SERIAL PRIMARY KEY,
 	Voice_body varchar(30) UNIQUE NOT NULL,
 	Voice_data varchar(50) NOT NULL,
-	Email varchar(50) UNIQUE NOT NULL,
+	Voice_HMM varchar(50) UNIQUE NOT NULL,
 	Voice_emotion_logic_accent varchar(30), 
 	Voice_similar_words varchar(30),
 	Created timestamp
@@ -43,4 +43,4 @@ CREATE TABLE Commands (
       REFERENCES Command_List (ID)
 );
 
---ALTER TABLE Voice_Patterns ADD CONSTRAINT Chack_correct_email CHECK (Email like '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$');
+--ALTER TABLE Voice_Patterns ADD CONSTRAINT Chack_correct_voice_hmm CHECK (Voice_HMM like '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$');
