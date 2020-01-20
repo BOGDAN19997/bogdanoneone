@@ -4,7 +4,7 @@ from wtforms import validators
 
 
 class CreateCommand(FlaskForm):
-    taglist_check = StringField("Taglist_check: ", [
+    taglist_check = StringField("Taglist check: ", [
         validators.DataRequired("Please enter command taglist check.")
 
     ])
@@ -25,7 +25,7 @@ class CreateCommand(FlaskForm):
         validators.DataRequired("Please enter command decode rating.")
 
     ])
-    command_list_id = IntegerField("Command_List id: ", [
+    command_list_id = IntegerField("Command List id: ", [
         validators.DataRequired("Please enter command id in Command List.")
 
     ])
@@ -33,7 +33,7 @@ class CreateCommand(FlaskForm):
 
 
 class EditCommand(FlaskForm):
-    taglist_check = StringField("Taglist_check: ", [
+    taglist_check = StringField("Taglist check: ", [
         validators.DataRequired("Please enter command taglist check.")
 
     ])
