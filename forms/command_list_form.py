@@ -9,8 +9,8 @@ class CreateCommand_List(FlaskForm):
         validators.DataRequired("Please enter command_list Taglist_check.")
 
     ])
-    description = StringField("Description: ", [
-        validators.DataRequired("Please enter command_list Description.")
+    full_body = StringField("Full_body: ", [
+        validators.DataRequired("Please enter command_list Full_body.")
 
     ])
 
@@ -30,8 +30,8 @@ class EditCommand_List(FlaskForm):
         validators.DataRequired("Please enter command_list Taglist_check.")
 
     ])
-    description = StringField("Description: ", [
-        validators.DataRequired("Please enter command_list Description.")
+    full_body = StringField("Full_body: ", [
+        validators.DataRequired("Please enter command_list Full_body.")
 
     ])
 

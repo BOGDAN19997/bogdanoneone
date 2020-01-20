@@ -5,14 +5,14 @@ CREATE TABLE Voice_Patterns (
 	Voice_HMM varchar(50) UNIQUE NOT NULL,
 	Voice_emotion_logic_accent varchar(30), 
 	Voice_similar_words varchar(30),
-	Created timestamp
+	Pronunciation_date timestamp
 );
 
 CREATE TABLE Text_Data ( 
 	ID SERIAL PRIMARY KEY,
 	Taglist_check varchar(30) NOT NULL,
-	Description text, 
-	Created timestamp,
+	Full_body text, 
+	Pronunciation_date timestamp,
 	CountOfCommand_Lists int NOT NULL DEFAULT 0,
 	Voice_Pattern_ID int,
 	CONSTRAINT FK_Voice_Pattern_ID FOREIGN KEY (Voice_Pattern_ID)
@@ -21,8 +21,8 @@ CREATE TABLE Text_Data (
 CREATE TABLE Command_List ( 
 	ID SERIAL PRIMARY KEY,
 	Taglist_check varchar(30) NOT NULL,
-	Description text, 
-	Created timestamp,
+	Full_body text, 
+	Pronunciation_date timestamp,
 	CountOfCommands int NOT NULL DEFAULT 0,
 	Text_Data_ID int,
 	CONSTRAINT FK_Text_Data_ID FOREIGN KEY (Text_Data_ID)
@@ -36,7 +36,7 @@ CREATE TABLE Commands (
 	Command_body text,
 	Expansion varchar(10) NOT NULL,
 	Versions varchar(30) NOT NULL DEFAULT '1.0', 
-	Created timestamp,
+	Pronunciation_date timestamp,
 	Rating real NOT NULL,
 	Command_List_ID int,
 	CONSTRAINT FK_Command_List_ID FOREIGN KEY (Command_List_ID)

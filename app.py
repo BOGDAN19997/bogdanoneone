@@ -42,7 +42,7 @@ class ormVoice_Patterns(db.Model):
     voice_hmm = Column(String(50), UniqueConstraint(taglist_check='voice_patterns_voice_hmm_key'), nullable=False)
     voice_emotion_logic_accent = Column(String(30))
     voice_similar_words = Column(String(30))
-    created = Column(DateTime, default=datetime.datetime.now())
+    pronunciation_date = Column(DateTime, default=datetime.datetime.now())
     voice_patternRelationShip = relationship("ormText_Data", back_populates="voice_pattern_Relation_Ship")
 
 
@@ -50,8 +50,8 @@ class ormText_Data(db.Model):
     __tablename__ = 'text_data'
     id = Column(Integer, Sequence('text_data_id_seq', start=1, increment=1), primary_key=True)
     taglist_check = Column(String(30), nullable=False)
-    description = Column(Text)
-    created = Column(DateTime, default=datetime.datetime.now())
+    full_body = Column(Text)
+    pronunciation_date = Column(DateTime, default=datetime.datetime.now())
     countofcommand_lists = Column(Integer, CheckConstraint('countofcommand_lists >= 0'), nullable=False, default=0)
     voice_pattern_id = Column(Integer, ForeignKey('voice_patterns.id'))
     voice_pattern_Relation_Ship = relationship("ormVoice_Patterns", back_populates="voice_patternRelationShip")
@@ -62,8 +62,8 @@ class ormCommand_List(db.Model):
     __tablename__ = 'command_list'
     id = Column(Integer, Sequence('command_list_id_seq', start=1, increment=1), primary_key=True)
     taglist_check = Column(String(30), nullable=False)
-    description = Column(Text)
-    created = Column(DateTime, default=datetime.datetime.now())
+    full_body = Column(Text)
+    pronunciation_date = Column(DateTime, default=datetime.datetime.now())
     countofcommands = Column(Integer, CheckConstraint('countofcommands >= 0'), nullable=False, default=0)
     text_data_id = Column(Integer, ForeignKey('text_data.id'))
     text_data_Relation_Ship = relationship("ormText_Data", back_populates="text_dataRelationShip")
@@ -77,7 +77,7 @@ class ormCommands(db.Model):
     command_body = Column(Text)
     expansion = Column(String(10), nullable=False)
     versions = Column(String(30), nullable=False, default='1.0')
-    created = Column(DateTime, default=datetime.datetime.now())
+    pronunciation_date = Column(DateTime, default=datetime.datetime.now())
     rating = Column(Float)
     command_list_id = Column(Integer, ForeignKey('command_list.id'))
     command_Relation_Ship = relationship("ormCommand_List", back_populates="commandRelationShip")
@@ -96,7 +96,7 @@ def all_voice_pattern():
     voice_pattern = []
     for row in voice_pattern_db:
         voice_pattern.append({"id": row.id, "voice_body": row.voice_body, "voice_data": row.voice_data, "voice_hmm": row.voice_hmm,
-                     "voice_emotion_logic_accent": row.voice_emotion_logic_accent, "voice_similar_words": row.voice_similar_words, "created": row.created})
+                     "voice_emotion_logic_accent": row.voice_emotion_logic_accent, "voice_similar_words": row.voice_similar_words, "pronunciation_date": row.pronunciation_date})
     return render_template('allVoice_Pattern.html', taglist_check=taglist_check, voice_patterns=voice_pattern, action="/all/voice_pattern")
 
 
@@ -106,7 +106,7 @@ def all_tex_data():
     tex_data_db = db.session.query(ormText_Data).all()
     tex_data = []
     for row in tex_data_db:
-        tex_data.append({"id": row.id, "taglist_check": row.taglist_check, "description": row.description, "created": row.created,
+        tex_data.append({"id": row.id, "taglist_check": row.taglist_check, "full_body": row.full_body, "pronunciation_date": row.pronunciation_date,
                            "countofcommand_lists": row.countofcommand_lists, "voice_pattern_id": row.voice_pattern_id})
     return render_template('allTex_data.html', taglist_check=taglist_check, tex_data=tex_data, action="/all/tex_data")
 
@@ -117,7 +117,7 @@ def all_command_list():
     command_list_db = db.session.query(ormCommand_List).all()
     command_list = []
     for row in command_list_db:
-        command_list.append({"id": row.id, "taglist_check": row.taglist_check, "description": row.description, "created": row.created,
+        command_list.append({"id": row.id, "taglist_check": row.taglist_check, "full_body": row.full_body, "pronunciation_date": row.pronunciation_date,
                         "countofcommands": row.countofcommands, "text_data_id": row.text_data_id})
     return render_template('allCommand_List.html', taglist_check=taglist_check, command_list=command_list, action="/all/command_list")
 
@@ -130,7 +130,7 @@ def all_command():
     for row in command_db:
         command.append({"id": row.id, "taglist_check": row.taglist_check, "command_body": row.command_body, "expansion": row.expansion,
                      "versions": row.versions,
-                     "created": row.created, "rating": row.rating, "command_list_id": row.command_list_id})
+                     "pronunciation_date": row.pronunciation_date, "rating": row.rating, "command_list_id": row.command_list_id})
     return render_template('allCommand.html', taglist_check=taglist_check, command=command, action="/all/command")
 
 
@@ -187,7 +187,7 @@ def create_tex_data():
             new_var = ormText_Data(
 
                 taglist_check=form.taglist_check.data,
-                description=form.description.data,
+                full_body=form.full_body.data,
                 countofcommand_lists=form.countofcommand_lists.data,
                 voice_pattern_id=form.voice_pattern_id.data
             )
@@ -217,7 +217,7 @@ def create_command_list():
             new_var = ormCommand_List(
 
                 taglist_check=form.taglist_check.data,
-                description=form.description.data,
+                full_body=form.full_body.data,
                 countofcommands=form.countofcommands.data,
                 text_data_id=form.text_data_id.data
             )
@@ -362,7 +362,7 @@ def edit_tex_data():
         tex_data = db.session.query(ormText_Data).filter(ormText_Data.id == id).one()
 
         form.taglist_check.data = tex_data.taglist_check
-        form.description.data = tex_data.description
+        form.full_body.data = tex_data.full_body
         form.countofcommand_lists.data = tex_data.countofcommand_lists
 
         return render_template('edit_tex_data.html', form=form, form_name="Edit tex_data",
@@ -383,7 +383,7 @@ def edit_tex_data():
             # update fields from form data
 
             var.taglist_check = form.taglist_check.data
-            var.description = form.description.data
+            var.full_body = form.full_body.data
             var.countofcommand_lists = form.countofcommand_lists.data
             db.session.commit()
 
@@ -399,7 +399,7 @@ def edit_command_list():
         command_list = db.session.query(ormCommand_List).filter(ormCommand_List.id == id).one()
 
         form.taglist_check.data = command_list.taglist_check
-        form.description.data = command_list.description
+        form.full_body.data = command_list.full_body
         form.countofcommands.data = command_list.countofcommands
 
         return render_template('edit_command_list.html', form=form, form_name="Edit command_list",
@@ -419,7 +419,7 @@ def edit_command_list():
             # update fields from form data
 
             var.taglist_check = form.taglist_check.data
-            var.description = form.description.data
+            var.full_body = form.full_body.data
             var.countofcommands = form.countofcommands.data
             db.session.commit()
 
@@ -476,8 +476,8 @@ def dashboard():
     query = (
         db.session.query(
             func.count(ormVoice_Patterns.id),
-            ormVoice_Patterns.created
-        ).group_by(ormVoice_Patterns.created)
+            ormVoice_Patterns.pronunciation_date
+        ).group_by(ormVoice_Patterns.pronunciation_date)
     ).all()
 
     dates, counts = zip(*query)

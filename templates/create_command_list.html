@@ -31,12 +31,12 @@
                         {% endif %}
                     </div>
                     <div class="form-group">
-                        {{ form.description.label }}
-                        {{ form.description(class_="form-control") }}
+                        {{ form.full_body.label }}
+                        {{ form.full_body(class_="form-control") }}
 
-                        {% if form.description.errors %}
+                        {% if form.full_body.errors %}
                             <div class="alert alert-danger" role="alert">
-                                {% for message in form.description.errors %}
+                                {% for message in form.full_body.errors %}
                                     <div>{{ message }}</div>
                                 {% endfor %}
                             </div>

@@ -9,8 +9,8 @@ class CreateTex_data(FlaskForm):
         validators.DataRequired("Please enter tex_data Taglist_check.")
 
     ])
-    description = StringField("Description: ", [
-        validators.DataRequired("Please enter tex_data Description.")
+    full_body = StringField("Full_body: ", [
+        validators.DataRequired("Please enter tex_data Full_body.")
 
     ])
 
@@ -31,8 +31,8 @@ class EditTex_data(FlaskForm):
         validators.DataRequired("Please enter tex_data Taglist_check.")
 
     ])
-    description = StringField("Description: ", [
-        validators.DataRequired("Please enter tex_data Description.")
+    full_body = StringField("Full_body: ", [
+        validators.DataRequired("Please enter tex_data Full_body.")
 
     ])
 
