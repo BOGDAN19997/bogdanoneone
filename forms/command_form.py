@@ -5,28 +5,28 @@ from wtforms import validators
 
 class CreateCommand(FlaskForm):
     taglist_check = StringField("Taglist_check: ", [
-        validators.DataRequired("Please enter command Taglist_check.")
+        validators.DataRequired("Please enter command taglist check.")
 
     ])
     command_body = StringField("Text: ", [
-        validators.DataRequired("Please enter command Text.")
+        validators.DataRequired("Please enter command text.")
 
     ])
 
     expansion = StringField("Expansion: ", [
-        validators.DataRequired("Please enter command Count Of Expansion.")
+        validators.DataRequired("Please enter count of expansions in current command.")
 
     ])
     versions = StringField("Versions: ", [
-        validators.DataRequired("Please enter command Versions.")
+        validators.DataRequired("Please enter versions where command was added.")
 
     ])
     rating = FloatField("Rating: ", [
-        validators.DataRequired("Please enter command Rating.")
+        validators.DataRequired("Please enter command decode rating.")
 
     ])
     command_list_id = IntegerField("Command_List id: ", [
-        validators.DataRequired("Please enter command Command_List id.")
+        validators.DataRequired("Please enter command id in Command List.")
 
     ])
     submit = SubmitField("Save")
@@ -34,19 +34,19 @@ class CreateCommand(FlaskForm):
 
 class EditCommand(FlaskForm):
     taglist_check = StringField("Taglist_check: ", [
-        validators.DataRequired("Please enter command Taglist_check.")
+        validators.DataRequired("Please enter command taglist check.")
 
     ])
     command_body = StringField("Text: ", [
-        validators.DataRequired("Please enter command Text.")
+        validators.DataRequired("Please enter command text.")
 
     ])
     versions = StringField("Versions: ", [
-        validators.DataRequired("Please enter command Versions.")
+        validators.DataRequired("Please enter versions where command was added.")
 
     ])
     rating = FloatField("Rating: ", [
-        validators.DataRequired("Please enter command Rating.")
+        validators.DataRequired("Please enter command decode rating.")
 
     ])
     submit = SubmitField("Save")

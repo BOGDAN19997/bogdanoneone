@@ -6,20 +6,20 @@ from wtforms.validators import NumberRange, DataRequired
 
 class CreateCommand_List(FlaskForm):
     taglist_check = StringField("Taglist_check: ", [
-        validators.DataRequired("Please enter command_list Taglist_check.")
+        validators.DataRequired("Please enter command list tag check.")
 
     ])
     full_body = StringField("Full_body: ", [
-        validators.DataRequired("Please enter command_list Full_body.")
+        validators.DataRequired("Please enter all commands in list.")
 
     ])
 
 
     countofcommands = IntegerField("Count Of Command_Lists:: ",
-                         validators=[NumberRange(min=0, message=">1"), DataRequired("Please enter your Count Of Command_Lists:.")]
+                         validators=[NumberRange(min=0, message=">1"), DataRequired("Please enter your count Of Command_Lists:.")]
                          )
     text_data_id = IntegerField("Tex_data id: ", [
-        validators.DataRequired("Please enter command_list Tex_data id.")
+        validators.DataRequired("Please enter text data id in current command list.")
 
     ])
     submit = SubmitField("Save")
@@ -27,17 +27,17 @@ class CreateCommand_List(FlaskForm):
 
 class EditCommand_List(FlaskForm):
     taglist_check = StringField("Taglist_check: ", [
-        validators.DataRequired("Please enter command_list Taglist_check.")
+        validators.DataRequired("Please enter command list tag check.")
 
     ])
     full_body = StringField("Full_body: ", [
-        validators.DataRequired("Please enter command_list Full_body.")
+        validators.DataRequired("Please enter all commands in list.")
 
     ])
 
     countofcommands = IntegerField("Count Of Command_Lists:: ",
                                 validators=[NumberRange(min=0, message=">0"),
-                                            DataRequired("Please enter your Count Of Command_Lists:.")]
+                                            DataRequired("Please enter your count Of Command_Lists:.")]
                                 )
 
     submit = SubmitField("Save")
