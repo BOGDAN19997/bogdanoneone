@@ -16,9 +16,7 @@ CREATE TABLE Text_Data (
 	CountOfCommand_Lists int NOT NULL DEFAULT 0,
 	Voice_Pattern_ID int,
 	CONSTRAINT FK_Voice_Pattern_ID FOREIGN KEY (Voice_Pattern_ID)
-      REFERENCES Voice_Patterns (ID),
-	CONSTRAINT Check_Count_Proj CHECK (CountOfCommand_Lists >= 0)
-);
+      REFERENCES Voice_Patterns (ID));
 
 CREATE TABLE Command_List ( 
 	ID SERIAL PRIMARY KEY,
