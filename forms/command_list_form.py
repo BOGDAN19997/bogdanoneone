@@ -15,7 +15,7 @@ class CreateCommand_List(FlaskForm):
     ])
 
 
-    countoffiles = IntegerField("Count Of Command_Lists:: ",
+    countofcommands = IntegerField("Count Of Command_Lists:: ",
                          validators=[NumberRange(min=0, message=">1"), DataRequired("Please enter your Count Of Command_Lists:.")]
                          )
     text_data_id = IntegerField("Tex_data id: ", [
@@ -35,7 +35,7 @@ class EditCommand_List(FlaskForm):
 
     ])
 
-    countoffiles = IntegerField("Count Of Command_Lists:: ",
+    countofcommands = IntegerField("Count Of Command_Lists:: ",
                                 validators=[NumberRange(min=0, message=">0"),
                                             DataRequired("Please enter your Count Of Command_Lists:.")]
                                 )

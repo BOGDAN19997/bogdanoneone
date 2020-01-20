@@ -3,50 +3,50 @@ from wtforms import StringField, SubmitField, IntegerField, FloatField
 from wtforms import validators
 
 
-class CreateFile(FlaskForm):
+class CreateCommand(FlaskForm):
     name = StringField("Name: ", [
-        validators.DataRequired("Please enter file Name.")
+        validators.DataRequired("Please enter command Name.")
 
     ])
-    file_text = StringField("Text: ", [
-        validators.DataRequired("Please enter file Text.")
+    command_text = StringField("Text: ", [
+        validators.DataRequired("Please enter command Text.")
 
     ])
 
     expansion = StringField("Expansion: ", [
-        validators.DataRequired("Please enter file Count Of Expansion.")
+        validators.DataRequired("Please enter command Count Of Expansion.")
 
     ])
     versions = StringField("Versions: ", [
-        validators.DataRequired("Please enter file Versions.")
+        validators.DataRequired("Please enter command Versions.")
 
     ])
     rating = FloatField("Rating: ", [
-        validators.DataRequired("Please enter file Rating.")
+        validators.DataRequired("Please enter command Rating.")
 
     ])
     command_list_id = IntegerField("Command_List id: ", [
-        validators.DataRequired("Please enter file Command_List id.")
+        validators.DataRequired("Please enter command Command_List id.")
 
     ])
     submit = SubmitField("Save")
 
 
-class EditFile(FlaskForm):
+class EditCommand(FlaskForm):
     name = StringField("Name: ", [
-        validators.DataRequired("Please enter file Name.")
+        validators.DataRequired("Please enter command Name.")
 
     ])
-    file_text = StringField("Text: ", [
-        validators.DataRequired("Please enter file Text.")
+    command_text = StringField("Text: ", [
+        validators.DataRequired("Please enter command Text.")
 
     ])
     versions = StringField("Versions: ", [
-        validators.DataRequired("Please enter file Versions.")
+        validators.DataRequired("Please enter command Versions.")
 
     ])
     rating = FloatField("Rating: ", [
-        validators.DataRequired("Please enter file Rating.")
+        validators.DataRequired("Please enter command Rating.")
 
     ])
     submit = SubmitField("Save")

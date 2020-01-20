@@ -12,9 +12,9 @@
                 <table class="table table-bordered table-responsive-md table-striped text-center">
                     <thead>
                     <tr>
-                        <th class="text-center">File id</th>
+                        <th class="text-center">Command id</th>
                         <th class="text-center">Name</th>
-                        <th class="text-center">Text in file</th>
+                        <th class="text-center">Text in command</th>
                         <th class="text-center">Expansion</th>
                         <th class="text-center">Versions</th>
                         <th class="text-center">Created</th>
@@ -23,11 +23,11 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for row in file %}
+                    {% for row in command %}
                         <tr>
                             <td class="pt-3-half" contenteditable="true">{{ row.id }}</td>
                             <td class="pt-3-half" contenteditable="true">{{ row.name }}</td>
-                            <td class="pt-3-half" contenteditable="true">{{ row.file_text }}</td>
+                            <td class="pt-3-half" contenteditable="true">{{ row.command_text }}</td>
                             <td class="pt-3-half" contenteditable="true">{{ row.expansion }}</td>
                             <td class="pt-3-half" contenteditable="true">{{ row.versions }}</td>
                             <td class="pt-3-half" contenteditable="true">{{ row.created }}</td>
@@ -36,12 +36,12 @@
                             <td>
                                 <span class="table-remove"><button type="button"
                                                                    class="btn btn-danger btn-rounded btn-sm my-0">
-                                    <a href="/edit/file?id={{ row.id }}">Edit</a></button></span>
+                                    <a href="/edit/command?id={{ row.id }}">Edit</a></button></span>
                             </td>
                             <td>
                                 <span class="table-remove"><button type="button"
                                                                    class="btn btn-danger btn-rounded btn-sm my-0">
-                                    <a href="/delete/file?id={{ row.id }}">Remove</a></button></span>
+                                    <a href="/delete/command?id={{ row.id }}">Remove</a></button></span>
                             </td>
                         </tr>
                     {% endfor %}
@@ -51,7 +51,7 @@
                     </tbody>
                 </table>
                 <span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0" allign="center">
-                                    <a href="/create/file">Create</a></button></span>
+                                    <a href="/create/command">Create</a></button></span>
             </div>
         </div>
     </div>

@@ -23,17 +23,17 @@ CREATE TABLE Command_List (
 	Name varchar(30) NOT NULL,
 	Description text, 
 	Created timestamp,
-	CountOfFiles int NOT NULL DEFAULT 0,
+	CountOfCommands int NOT NULL DEFAULT 0,
 	Text_Data_ID int,
 	CONSTRAINT FK_Text_Data_ID FOREIGN KEY (Text_Data_ID)
       REFERENCES Text_Data (ID),
-	CONSTRAINT Check_Count_File CHECK (CountOfFiles >= 0)
+	CONSTRAINT Check_Count_Command CHECK (CountOfCommands >= 0)
 );
 
-CREATE TABLE Files ( 
+CREATE TABLE Commands ( 
 	ID SERIAL PRIMARY KEY,
 	Name varchar(30) NOT NULL,
-	File_text text,
+	Command_text text,
 	Expansion varchar(10) NOT NULL,
 	Versions varchar(30) NOT NULL DEFAULT '1.0', 
 	Created timestamp,

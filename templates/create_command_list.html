@@ -43,12 +43,12 @@
                         {% endif %}
                     </div>
                     <div class="form-group">
-                        {{ form.countoffiles.label }}
-                        {{ form.countoffiles(class_="form-control") }}
+                        {{ form.countofcommands.label }}
+                        {{ form.countofcommands(class_="form-control") }}
 
-                        {% if form.countoffiles.errors %}
+                        {% if form.countofcommands.errors %}
                             <div class="alert alert-danger" role="alert">
-                                {% for message in form.countoffiles.errors %}
+                                {% for message in form.countofcommands.errors %}
                                     <div>{{ message }}</div>
                                 {% endfor %}
                             </div>

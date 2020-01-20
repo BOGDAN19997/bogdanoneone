@@ -9,7 +9,7 @@ import datetime
 from forms.tex_data_form import CreateTex_data, EditTex_data
 from forms.command_list_form import CreateCommand_List, EditCommand_List
 from forms.voice_pattern_form import CreateVoice_Pattern, EditVoice_Pattern
-from forms.file_form import CreateFile, EditFile
+from forms.command_form import CreateCommand, EditCommand
 from forms.searchform import CreateQuery
 import plotly
 import plotly.graph_objs as go
@@ -64,23 +64,23 @@ class ormCommand_List(db.Model):
     name = Column(String(30), nullable=False)
     description = Column(Text)
     created = Column(DateTime, default=datetime.datetime.now())
-    countoffiles = Column(Integer, CheckConstraint('countoffiles >= 0'), nullable=False, default=0)
+    countofcommands = Column(Integer, CheckConstraint('countofcommands >= 0'), nullable=False, default=0)
     text_data_id = Column(Integer, ForeignKey('text_data.id'))
     text_data_Relation_Ship = relationship("ormText_Data", back_populates="text_dataRelationShip")
-    fileRelationShip = relationship("ormFiles", back_populates="file_Relation_Ship")
+    commandRelationShip = relationship("ormCommands", back_populates="command_Relation_Ship")
 
 
-class ormFiles(db.Model):
-    __tablename__ = 'files'
-    id = Column(Integer, Sequence('files_id_seq', start=1, increment=1), primary_key=True)
+class ormCommands(db.Model):
+    __tablename__ = 'commands'
+    id = Column(Integer, Sequence('commands_id_seq', start=1, increment=1), primary_key=True)
     name = Column(String(30), nullable=False)
-    file_text = Column(Text)
+    command_text = Column(Text)
     expansion = Column(String(10), nullable=False)
     versions = Column(String(30), nullable=False, default='1.0')
     created = Column(DateTime, default=datetime.datetime.now())
     rating = Column(Float)
     command_list_id = Column(Integer, ForeignKey('command_list.id'))
-    file_Relation_Ship = relationship("ormCommand_List", back_populates="fileRelationShip")
+    command_Relation_Ship = relationship("ormCommand_List", back_populates="commandRelationShip")
 
 
 @app.route('/')
@@ -118,20 +118,20 @@ def all_command_list():
     command_list = []
     for row in command_list_db:
         command_list.append({"id": row.id, "name": row.name, "description": row.description, "created": row.created,
-                        "countoffiles": row.countoffiles, "text_data_id": row.text_data_id})
+                        "countofcommands": row.countofcommands, "text_data_id": row.text_data_id})
     return render_template('allCommand_List.html', name=name, command_list=command_list, action="/all/command_list")
 
 
-@app.route('/all/file')
-def all_file():
-    name = "file"
-    file_db = db.session.query(ormFiles).all()
-    file = []
-    for row in file_db:
-        file.append({"id": row.id, "name": row.name, "file_text": row.file_text, "expansion": row.expansion,
+@app.route('/all/command')
+def all_command():
+    name = "command"
+    command_db = db.session.query(ormCommands).all()
+    command = []
+    for row in command_db:
+        command.append({"id": row.id, "name": row.name, "command_text": row.command_text, "expansion": row.expansion,
                      "versions": row.versions,
                      "created": row.created, "rating": row.rating, "command_list_id": row.command_list_id})
-    return render_template('allFile.html', name=name, file=file, action="/all/file")
+    return render_template('allCommand.html', name=name, command=command, action="/all/command")
 
 
 @app.route('/create/voice_pattern', methods=['GET', 'POST'])
@@ -218,7 +218,7 @@ def create_command_list():
 
                 name=form.name.data,
                 description=form.description.data,
-                countoffiles=form.countoffiles.data,
+                countofcommands=form.countofcommands.data,
                 text_data_id=form.text_data_id.data
             )
             if check:
@@ -229,13 +229,13 @@ def create_command_list():
     return render_template('create_command_list.html', form=form, form_name="New command_list", action="create/command_list")
 
 
-@app.route('/create/file', methods=['GET', 'POST'])
-def create_file():
-    form = CreateFile()
+@app.route('/create/command', methods=['GET', 'POST'])
+def create_command():
+    form = CreateCommand()
 
     if request.method == 'POST':
         if form.validate() == False:
-            return render_template('create_file.html', form=form, form_name="New file", action="create/file")
+            return render_template('create_command.html', form=form, form_name="New command", action="create/command")
         else:
 
             ids = db.session.query(ormCommand_List).all()
@@ -244,10 +244,10 @@ def create_file():
                 if row.id == form.command_list_id.data:
                     check = True
 
-            new_var = ormFiles(
+            new_var = ormCommands(
 
                 name=form.name.data,
-                file_text=form.file_text.data,
+                command_text=form.command_text.data,
                 expansion=form.expansion.data,
                 versions=form.versions.data,
                 rating=form.rating.data,
@@ -256,9 +256,9 @@ def create_file():
             if check:
                 db.session.add(new_var)
                 db.session.commit()
-                return redirect(url_for('all_file'))
+                return redirect(url_for('all_command'))
 
-    return render_template('create_file.html', form=form, form_name="New file", action="create/file")
+    return render_template('create_command.html', form=form, form_name="New command", action="create/command")
 
 
 @app.route('/delete/voice_pattern', methods=['GET'])
@@ -301,16 +301,16 @@ def delete_command_list():
     return redirect(url_for('all_command_list'))
 
 
-@app.route('/delete/file', methods=['GET'])
-def delete_file():
+@app.route('/delete/command', methods=['GET'])
+def delete_command():
     id = request.args.get('id')
 
-    result = db.session.query(ormFiles).filter(ormFiles.id == id).one()
+    result = db.session.query(ormCommands).filter(ormCommands.id == id).one()
 
     db.session.delete(result)
     db.session.commit()
 
-    return redirect(url_for('all_file'))
+    return redirect(url_for('all_command'))
 
 
 @app.route('/edit/voice_pattern', methods=['GET', 'POST'])
@@ -400,7 +400,7 @@ def edit_command_list():
 
         form.name.data = command_list.name
         form.description.data = command_list.description
-        form.countoffiles.data = command_list.countoffiles
+        form.countofcommands.data = command_list.countofcommands
 
         return render_template('edit_command_list.html', form=form, form_name="Edit command_list",
                                action="edit/command_list?id=" + id)
@@ -420,48 +420,48 @@ def edit_command_list():
 
             var.name = form.name.data
             var.description = form.description.data
-            var.countoffiles = form.countoffiles.data
+            var.countofcommands = form.countofcommands.data
             db.session.commit()
 
             return redirect(url_for('all_command_list'))
 
 
-@app.route('/edit/file', methods=['GET', 'POST'])
-def edit_file():
-    form = EditFile()
+@app.route('/edit/command', methods=['GET', 'POST'])
+def edit_command():
+    form = EditCommand()
     id = request.args.get('id')
     if request.method == 'GET':
 
-        file = db.session.query(ormFiles).filter(ormFiles.id == id).one()
+        command = db.session.query(ormCommands).filter(ormCommands.id == id).one()
 
-        form.name.data = file.name
-        form.file_text.data = file.file_text
-        form.versions.data = file.versions
-        form.rating.data = file.rating
+        form.name.data = command.name
+        form.command_text.data = command.command_text
+        form.versions.data = command.versions
+        form.rating.data = command.rating
 
-        return render_template('edit_file.html', form=form, form_name="Edit file",
-                               action="edit/file?id=" + id)
+        return render_template('edit_command.html', form=form, form_name="Edit command",
+                               action="edit/command?id=" + id)
 
 
     else:
 
         if form.validate() == False:
-            return render_template('edit_file.html', form=form, form_name="Edit file", action="edit/file?id=" + id)
+            return render_template('edit_command.html', form=form, form_name="Edit command", action="edit/command?id=" + id)
         else:
 
             # find voice_pattern
-            var = db.session.query(ormFiles).filter(ormFiles.id == id).one()
+            var = db.session.query(ormCommands).filter(ormCommands.id == id).one()
             print(var)
 
             # update fields from form data
 
             var.name = form.name.data
-            var.file_text = form.file_text.data
+            var.command_text = form.command_text.data
             var.versions = form.versions.data
             var.rating = form.rating.data
             db.session.commit()
 
-            return redirect(url_for('all_file'))
+            return redirect(url_for('all_command'))
 
 
 @app.route('/dashboard')
@@ -469,8 +469,8 @@ def dashboard():
     query1 = (
         db.session.query(
             func.count(),
-            ormFiles.expansion
-        ).group_by(ormFiles.expansion)
+            ormCommands.expansion
+        ).group_by(ormCommands.expansion)
     ).all()
 
     query = (
@@ -507,8 +507,8 @@ def dashboard():
 def claster():
     df = pd.DataFrame()
 
-    for name, expansion in db.session.query(ormCommand_List.name, ormFiles.expansion).join(ormFiles,
-                                                                                      ormCommand_List.id == ormFiles.command_list_id):
+    for name, expansion in db.session.query(ormCommand_List.name, ormCommands.expansion).join(ormCommands,
+                                                                                      ormCommand_List.id == ormCommands.command_list_id):
         print(name, expansion)
         df = df.append({"name": name, "expansion": expansion}, ignore_index=True)
 
@@ -529,8 +529,8 @@ def claster():
     query1 = (
         db.session.query(
             func.count(),
-            ormFiles.expansion
-        ).group_by(ormFiles.expansion)
+            ormCommands.expansion
+        ).group_by(ormCommands.expansion)
     ).all()
     skills, voice_pattern_count = zip(*query1)
     pie = go.Pie(
@@ -548,23 +548,23 @@ def claster():
 @app.route('/regretion', methods=['GET', 'POST'])
 def correlation():
     df = pd.DataFrame()
-    for count_proj, count_files in db.session.query(ormText_Data.countofcommand_lists, ormCommand_List.countoffiles).join(
+    for count_proj, count_commands in db.session.query(ormText_Data.countofcommand_lists, ormCommand_List.countofcommands).join(
             ormText_Data,
             ormText_Data.id == ormCommand_List.text_data_id):
-        print(count_proj, count_files)
-        df = df.append({"count_proj": float(count_proj), "count_files": float(count_files)}, ignore_index=True)
+        print(count_proj, count_commands)
+        df = df.append({"count_proj": float(count_proj), "count_commands": float(count_commands)}, ignore_index=True)
     db.session.close()
     scaler = StandardScaler()
     scaler.fit(df[["count_proj"]])
     train_X = scaler.transform(df[["count_proj"]])
-    # print(train_X, df[["count_files"]])
-    reg = LinearRegression().fit(train_X, df[["count_files"]])
+    # print(train_X, df[["count_commands"]])
+    reg = LinearRegression().fit(train_X, df[["count_commands"]])
 
     test_array = [[3]]
     test = scaler.transform(test_array)
     result = reg.predict(test)
 
-    query1 = db.session.query(ormText_Data.countofcommand_lists, ormCommand_List.countoffiles).join(
+    query1 = db.session.query(ormText_Data.countofcommand_lists, ormCommand_List.countofcommands).join(
             ormText_Data, ormText_Data.id == ormCommand_List.text_data_id).all()
     count_pr, count_fl = zip(*query1)
     scatter = go.Scatter(
@@ -591,12 +591,12 @@ def correlation():
 @app.route('/clasification', methods=['GET', 'POST'])
 def clasification():
     df = pd.DataFrame()
-    for file_text, rating in db.session.query(ormFiles.file_text, ormFiles.rating):
-        print(file_text, rating)
-        df = df.append({"file_name": file_text, "rating": float(rating)}, ignore_index=True)
+    for command_text, rating in db.session.query(ormCommands.command_text, ormCommands.rating):
+        print(command_text, rating)
+        df = df.append({"command_name": command_text, "rating": float(rating)}, ignore_index=True)
     # db.session.close()
 
-    df['count_symbols'] = df['file_name'].apply(len)
+    df['count_symbols'] = df['command_name'].apply(len)
     df.loc[df['rating'] < 0.33, 'quality'] = 0
     df.loc[df['rating'] >= 0.33, 'quality'] = 1
     print(df)
@@ -625,7 +625,7 @@ def search():
             return render_template('search.html', form=form, form_name="Search", action="search")
         else:
             list_event.clear()
-            for id, name, Expansion in db.session.query(ormFiles.id, ormFiles.name, ormFiles.expansion
+            for id, name, Expansion in db.session.query(ormCommands.id, ormCommands.name, ormCommands.expansion
                                                         ):
                 if name == form.nameOfCommand_List.data and Expansion == form.Expansion.data:
                     list_event.append(id)
@@ -640,7 +640,7 @@ def searchList():
     try:
         for i in list_event:
             version,rating = db.session \
-                .query(ormFiles.versions, ormFiles.rating).filter(ormFiles.id == i).one()
+                .query(ormCommands.versions, ormCommands.rating).filter(ormCommands.id == i).one()
             res.append(
                 {"version": version, "rating": rating})
     except:
