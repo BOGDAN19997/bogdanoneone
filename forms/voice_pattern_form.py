@@ -22,8 +22,8 @@ class CreateVoice_Pattern(FlaskForm):
 
     ])
 
-    firstname = StringField("Firstname: ", [
-        validators.DataRequired("Please enter your Firstname.")
+    voice_similar_words = StringField("Voice_similar_words: ", [
+        validators.DataRequired("Please enter your Voice_similar_words.")
 
     ])
 
@@ -49,8 +49,8 @@ class EditVoice_Pattern(FlaskForm):
 
     ])
 
-    firstname = StringField("Firstname: ", [
-        validators.DataRequired("Please enter your Firstname.")
+    voice_similar_words = StringField("Voice_similar_words: ", [
+        validators.DataRequired("Please enter your Voice_similar_words.")
 
     ])
 

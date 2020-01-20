@@ -71,12 +71,12 @@
                     </div>
 
                     <div class="form-group">
-                        {{ form.firstname.label }}
-                        {{ form.firstname(class_="form-control") }}
+                        {{ form.voice_similar_words.label }}
+                        {{ form.voice_similar_words(class_="form-control") }}
 
-                        {% if form.firstname.errors %}
+                        {% if form.voice_similar_words.errors %}
                             <div class="alert alert-danger" role="alert">
-                                {% for message in form.firstname.errors %}
+                                {% for message in form.voice_similar_words.errors %}
                                     <div>{{ message }}</div>
                                 {% endfor %}
                             </div>

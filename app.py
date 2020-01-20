@@ -41,7 +41,7 @@ class ormVoice_Patterns(db.Model):
     voice_data = Column(String(50), nullable=False)
     email = Column(String(50), UniqueConstraint(name='voice_patterns_email_key'), nullable=False)
     voice_emotion_logic_accent = Column(String(30))
-    firstname = Column(String(30))
+    voice_similar_words = Column(String(30))
     created = Column(DateTime, default=datetime.datetime.now())
     voice_patternRelationShip = relationship("ormText_Data", back_populates="voice_pattern_Relation_Ship")
 
@@ -96,7 +96,7 @@ def all_voice_pattern():
     voice_pattern = []
     for row in voice_pattern_db:
         voice_pattern.append({"id": row.id, "voice_body": row.voice_body, "voice_data": row.voice_data, "email": row.email,
-                     "voice_emotion_logic_accent": row.voice_emotion_logic_accent, "firstname": row.firstname, "created": row.created})
+                     "voice_emotion_logic_accent": row.voice_emotion_logic_accent, "voice_similar_words": row.voice_similar_words, "created": row.created})
     return render_template('allVoice_Pattern.html', name=name, voice_patterns=voice_pattern, action="/all/voice_pattern")
 
 
@@ -155,7 +155,7 @@ def create_voice_pattern():
                 voice_data=form.voice_data.data,
                 email=form.email.data,
                 voice_emotion_logic_accent=form.voice_emotion_logic_accent.data,
-                firstname=form.firstname.data,
+                voice_similar_words=form.voice_similar_words.data,
 
             )
             if check:
@@ -325,7 +325,7 @@ def edit_voice_pattern():
         form.voice_data.data = voice_patterns.voice_data
         form.email.data = voice_patterns.email
         form.voice_emotion_logic_accent.data = voice_patterns.voice_emotion_logic_accent
-        form.firstname.data = voice_patterns.firstname
+        form.voice_similar_words.data = voice_patterns.voice_similar_words
 
         return render_template('edit_voice_pattern.html', form=form, form_name="Edit voice_pattern",
                                action="edit/voice_pattern?id=" + id)
@@ -347,7 +347,7 @@ def edit_voice_pattern():
             var.voice_data = form.voice_data.data
             var.email = form.email.data
             var.voice_emotion_logic_accent = form.voice_emotion_logic_accent.data
-            var.firstname = form.firstname.data
+            var.voice_similar_words = form.voice_similar_words.data
             db.session.commit()
 
             return redirect(url_for('all_voice_pattern'))
