@@ -8,7 +8,7 @@ class CreateCommand(FlaskForm):
         validators.DataRequired("Please enter command Name.")
 
     ])
-    command_text = StringField("Text: ", [
+    command_body = StringField("Text: ", [
         validators.DataRequired("Please enter command Text.")
 
     ])
@@ -37,7 +37,7 @@ class EditCommand(FlaskForm):
         validators.DataRequired("Please enter command Name.")
 
     ])
-    command_text = StringField("Text: ", [
+    command_body = StringField("Text: ", [
         validators.DataRequired("Please enter command Text.")
 
     ])

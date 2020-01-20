@@ -74,7 +74,7 @@ class ormCommands(db.Model):
     __tablename__ = 'commands'
     id = Column(Integer, Sequence('commands_id_seq', start=1, increment=1), primary_key=True)
     name = Column(String(30), nullable=False)
-    command_text = Column(Text)
+    command_body = Column(Text)
     expansion = Column(String(10), nullable=False)
     versions = Column(String(30), nullable=False, default='1.0')
     created = Column(DateTime, default=datetime.datetime.now())
@@ -128,7 +128,7 @@ def all_command():
     command_db = db.session.query(ormCommands).all()
     command = []
     for row in command_db:
-        command.append({"id": row.id, "name": row.name, "command_text": row.command_text, "expansion": row.expansion,
+        command.append({"id": row.id, "name": row.name, "command_body": row.command_body, "expansion": row.expansion,
                      "versions": row.versions,
                      "created": row.created, "rating": row.rating, "command_list_id": row.command_list_id})
     return render_template('allCommand.html', name=name, command=command, action="/all/command")
@@ -247,7 +247,7 @@ def create_command():
             new_var = ormCommands(
 
                 name=form.name.data,
-                command_text=form.command_text.data,
+                command_body=form.command_body.data,
                 expansion=form.expansion.data,
                 versions=form.versions.data,
                 rating=form.rating.data,
@@ -435,7 +435,7 @@ def edit_command():
         command = db.session.query(ormCommands).filter(ormCommands.id == id).one()
 
         form.name.data = command.name
-        form.command_text.data = command.command_text
+        form.command_body.data = command.command_body
         form.versions.data = command.versions
         form.rating.data = command.rating
 
@@ -456,7 +456,7 @@ def edit_command():
             # update fields from form data
 
             var.name = form.name.data
-            var.command_text = form.command_text.data
+            var.command_body = form.command_body.data
             var.versions = form.versions.data
             var.rating = form.rating.data
             db.session.commit()
@@ -591,9 +591,9 @@ def correlation():
 @app.route('/clasification', methods=['GET', 'POST'])
 def clasification():
     df = pd.DataFrame()
-    for command_text, rating in db.session.query(ormCommands.command_text, ormCommands.rating):
-        print(command_text, rating)
-        df = df.append({"command_name": command_text, "rating": float(rating)}, ignore_index=True)
+    for command_body, rating in db.session.query(ormCommands.command_body, ormCommands.rating):
+        print(command_body, rating)
+        df = df.append({"command_name": command_body, "rating": float(rating)}, ignore_index=True)
     # db.session.close()
 
     df['count_symbols'] = df['command_name'].apply(len)

@@ -19,11 +19,11 @@ VALUES (2, 'Parsing news line','Method parsing news line of fecebook', NOW(), 3,
 INSERT INTO Command_List (id, name, description, created, CountOfCommands, text_data_ID)
 VALUES (3, 'Parsing single page','Method parsing single page of fecebook', NOW(), 5, 2);
 
-INSERT INTO Commands (id, name, Command_text, Expansion, versions, created, rating, command_list_ID)
+INSERT INTO Commands (id, name, Command_body, Expansion, versions, created, rating, command_list_ID)
 VALUES (1, 'main','import ...', '.py', '1.0.0.1', NOW(), 0.32, 1);
-INSERT INTO Commands (id, name, command_text, Expansion, versions, created, rating, command_list_ID)
+INSERT INTO Commands (id, name, command_body, Expansion, versions, created, rating, command_list_ID)
 VALUES (2, 'poplate','import pandas ...', '.py', '1.0.0.2', NOW(), 0.39, 1);
-INSERT INTO Commands (id, name, command_text, Expansion, versions, created, rating, command_list_ID)
+INSERT INTO Commands (id, name, command_body, Expansion, versions, created, rating, command_list_ID)
 VALUES (3, 'main','import xml...', '.py', '1.0.1', NOW(), 0.02, 2);
 
 select * from voice_patterns;

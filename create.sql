@@ -33,7 +33,7 @@ CREATE TABLE Command_List (
 CREATE TABLE Commands ( 
 	ID SERIAL PRIMARY KEY,
 	Name varchar(30) NOT NULL,
-	Command_text text,
+	Command_body text,
 	Expansion varchar(10) NOT NULL,
 	Versions varchar(30) NOT NULL DEFAULT '1.0', 
 	Created timestamp,
