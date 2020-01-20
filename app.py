@@ -39,7 +39,7 @@ class ormVoice_Patterns(db.Model):
     id = Column(Integer, Sequence('voice_patterns_id_seq', start=1, increment=1), primary_key=True)
     voice_body = Column(String(30), UniqueConstraint(name='voice_patterns_voice_body_key'), nullable=False)
     voice_data = Column(String(50), nullable=False)
-    voice_HMM = Column(String(50), UniqueConstraint(name='voice_patterns_voice_HMM_key'), nullable=False)
+    email = Column(String(50), UniqueConstraint(name='voice_patterns_email_key'), nullable=False)
     lastname = Column(String(30))
     firstname = Column(String(30))
     created = Column(DateTime, default=datetime.datetime.now())
@@ -95,7 +95,7 @@ def all_voice_pattern():
     voice_pattern_db = db.session.query(ormVoice_Patterns).all()
     voice_pattern = []
     for row in voice_pattern_db:
-        voice_pattern.append({"id": row.id, "voice_body": row.voice_body, "voice_data": row.voice_data, "voice_HMM": row.voice_HMM,
+        voice_pattern.append({"id": row.id, "voice_body": row.voice_body, "voice_data": row.voice_data, "email": row.email,
                      "lastname": row.lastname, "firstname": row.firstname, "created": row.created})
     return render_template('allVoice_Pattern.html', name=name, voice_patterns=voice_pattern, action="/all/voice_pattern")
 
@@ -153,7 +153,7 @@ def create_voice_pattern():
 
                 voice_body=form.voice_body.data,
                 voice_data=form.voice_data.data,
-                voice_HMM=form.voice_HMM.data,
+                email=form.email.data,
                 lastname=form.lastname.data,
                 firstname=form.firstname.data,
 
@@ -323,7 +323,7 @@ def edit_voice_pattern():
 
         form.voice_body.data = voice_patterns.voice_body
         form.voice_data.data = voice_patterns.voice_data
-        form.voice_HMM.data = voice_patterns.voice_HMM
+        form.email.data = voice_patterns.email
         form.lastname.data = voice_patterns.lastname
         form.firstname.data = voice_patterns.firstname
 
@@ -345,7 +345,7 @@ def edit_voice_pattern():
 
             var.voice_body = form.voice_body.data
             var.voice_data = form.voice_data.data
-            var.voice_HMM = form.voice_HMM.data
+            var.email = form.email.data
             var.lastname = form.lastname.data
             var.firstname = form.firstname.data
             db.session.commit()

@@ -13,8 +13,8 @@ class CreateVoice_Pattern(FlaskForm):
 
     ])
 
-    voice_HMM = StringField("Voice_HMM: ", [
-        validators.DataRequired("Please enter your Voice_HMM.")
+    email = StringField("Email: ", [
+        validators.DataRequired("Please enter your Email.")
 
     ])
     lastname = StringField("Lastname: ", [
@@ -40,8 +40,8 @@ class EditVoice_Pattern(FlaskForm):
 
     ])
 
-    voice_HMM = StringField("Voice_HMM: ", [
-        validators.DataRequired("Please enter your Voice_HMM.")
+    email = StringField("Email: ", [
+        validators.DataRequired("Please enter your Email.")
 
     ])
     lastname = StringField("Lastname: ", [
