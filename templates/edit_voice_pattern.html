@@ -7,7 +7,7 @@
 
 <div class="col-md-6 mx-auto">
 
-    <!-- form card login -->
+    <!-- form card voice_body -->
     <div class="card rounded-0">
 
         <div class="card-header">
@@ -20,12 +20,12 @@
 
 
            <div class="form-group">
-                        {{ form.login.label }}
-                        {{ form.login(class_="form-control") }}
+                        {{ form.voice_body.label }}
+                        {{ form.voice_body(class_="form-control") }}
 
-                        {% if form.login.errors %}
+                        {% if form.voice_body.errors %}
                             <div class="alert alert-danger" role="alert">
-                                {% for message in form.login.errors %}
+                                {% for message in form.voice_body.errors %}
                                     <div>{{ message }}</div>
                                 {% endfor %}
                             </div>
@@ -33,12 +33,12 @@
                     </div>
 
                     <div class="form-group">
-                        {{ form.password.label }}
-                        {{ form.password(class_="form-control") }}
+                        {{ form.voice_data.label }}
+                        {{ form.voice_data(class_="form-control") }}
 
-                        {% if form.password.errors %}
+                        {% if form.voice_data.errors %}
                             <div class="alert alert-danger" role="alert">
-                                {% for message in form.password.errors %}
+                                {% for message in form.voice_data.errors %}
                                     <div>{{ message }}</div>
                                 {% endfor %}
                             </div>
@@ -46,12 +46,12 @@
                     </div>
 
                     <div class="form-group">
-                        {{ form.email.label }}
-                        {{ form.email(class_="form-control") }}
+                        {{ form.voice_HMM.label }}
+                        {{ form.voice_HMM(class_="form-control") }}
 
-                        {% if form.email.errors %}
+                        {% if form.voice_HMM.errors %}
                             <div class="alert alert-danger" role="alert">
-                                {% for message in form.email.errors %}
+                                {% for message in form.voice_HMM.errors %}
                                     <div>{{ message }}</div>
                                 {% endfor %}
                             </div>
@@ -90,7 +90,7 @@
         </div>
         <!--/card-block-->
     </div>
-    <!-- /form card login -->
+    <!-- /form card voice_body -->
 
 </div>
 

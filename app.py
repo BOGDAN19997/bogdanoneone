@@ -37,9 +37,9 @@ db = SQLAlchemy(app)
 class ormVoice_Patterns(db.Model):
     __tablename__ = 'voice_patterns'
     id = Column(Integer, Sequence('voice_patterns_id_seq', start=1, increment=1), primary_key=True)
-    login = Column(String(30), UniqueConstraint(name='voice_patterns_login_key'), nullable=False)
-    password = Column(String(50), nullable=False)
-    email = Column(String(50), UniqueConstraint(name='voice_patterns_email_key'), nullable=False)
+    voice_body = Column(String(30), UniqueConstraint(name='voice_patterns_voice_body_key'), nullable=False)
+    voice_data = Column(String(50), nullable=False)
+    voice_HMM = Column(String(50), UniqueConstraint(name='voice_patterns_voice_HMM_key'), nullable=False)
     lastname = Column(String(30))
     firstname = Column(String(30))
     created = Column(DateTime, default=datetime.datetime.now())
@@ -95,7 +95,7 @@ def all_voice_pattern():
     voice_pattern_db = db.session.query(ormVoice_Patterns).all()
     voice_pattern = []
     for row in voice_pattern_db:
-        voice_pattern.append({"id": row.id, "login": row.login, "password": row.password, "email": row.email,
+        voice_pattern.append({"id": row.id, "voice_body": row.voice_body, "voice_data": row.voice_data, "voice_HMM": row.voice_HMM,
                      "lastname": row.lastname, "firstname": row.firstname, "created": row.created})
     return render_template('allVoice_Pattern.html', name=name, voice_patterns=voice_pattern, action="/all/voice_pattern")
 
@@ -146,14 +146,14 @@ def create_voice_pattern():
             ids = db.session.query(ormVoice_Patterns).all()
             check = True
             for row in ids:
-                if row.login == form.login.data:
+                if row.voice_body == form.voice_body.data:
                     check = False
 
             new_var = ormVoice_Patterns(
 
-                login=form.login.data,
-                password=form.password.data,
-                email=form.email.data,
+                voice_body=form.voice_body.data,
+                voice_data=form.voice_data.data,
+                voice_HMM=form.voice_HMM.data,
                 lastname=form.lastname.data,
                 firstname=form.firstname.data,
 
@@ -163,7 +163,7 @@ def create_voice_pattern():
                 db.session.commit()
                 return redirect(url_for('all_voice_pattern'))
             else:
-                form.login.errors = "this voice_pattern already exists"
+                form.voice_body.errors = "this voice_pattern already exists"
 
     return render_template('create_voice_pattern.html', form=form, form_name="New voice_pattern", action="create/voice_pattern")
 
@@ -321,9 +321,9 @@ def edit_voice_pattern():
 
         voice_patterns = db.session.query(ormVoice_Patterns).filter(ormVoice_Patterns.id == id).one()
 
-        form.login.data = voice_patterns.login
-        form.password.data = voice_patterns.password
-        form.email.data = voice_patterns.email
+        form.voice_body.data = voice_patterns.voice_body
+        form.voice_data.data = voice_patterns.voice_data
+        form.voice_HMM.data = voice_patterns.voice_HMM
         form.lastname.data = voice_patterns.lastname
         form.firstname.data = voice_patterns.firstname
 
@@ -343,9 +343,9 @@ def edit_voice_pattern():
 
             # update fields from form data
 
-            var.login = form.login.data
-            var.password = form.password.data
-            var.email = form.email.data
+            var.voice_body = form.voice_body.data
+            var.voice_data = form.voice_data.data
+            var.voice_HMM = form.voice_HMM.data
             var.lastname = form.lastname.data
             var.firstname = form.firstname.data
             db.session.commit()

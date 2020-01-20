@@ -4,17 +4,17 @@ from wtforms import validators
 
 
 class CreateVoice_Pattern(FlaskForm):
-    login = StringField("Login: ", [
-        validators.DataRequired("Please enter your Login.")
+    voice_body = StringField("Voice_body: ", [
+        validators.DataRequired("Please enter your Voice_body.")
 
     ])
-    password = StringField("Password: ", [
-        validators.DataRequired("Please enter your Password.")
+    voice_data = StringField("Voice_data: ", [
+        validators.DataRequired("Please enter your Voice_data.")
 
     ])
 
-    email = StringField("Email: ", [
-        validators.DataRequired("Please enter your Email.")
+    voice_HMM = StringField("Voice_HMM: ", [
+        validators.DataRequired("Please enter your Voice_HMM.")
 
     ])
     lastname = StringField("Lastname: ", [
@@ -31,17 +31,17 @@ class CreateVoice_Pattern(FlaskForm):
 
 
 class EditVoice_Pattern(FlaskForm):
-    login = StringField("Login: ", [
-        validators.DataRequired("Please enter your Login.")
+    voice_body = StringField("Voice_body: ", [
+        validators.DataRequired("Please enter your Voice_body.")
 
     ])
-    password = StringField("Password: ", [
-        validators.DataRequired("Please enter your Password.")
+    voice_data = StringField("Voice_data: ", [
+        validators.DataRequired("Please enter your Voice_data.")
 
     ])
 
-    email = StringField("Email: ", [
-        validators.DataRequired("Please enter your Email.")
+    voice_HMM = StringField("Voice_HMM: ", [
+        validators.DataRequired("Please enter your Voice_HMM.")
 
     ])
     lastname = StringField("Lastname: ", [
