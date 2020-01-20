@@ -58,12 +58,12 @@
                     </div>
 
                     <div class="form-group">
-                        {{ form.lastname.label }}
-                        {{ form.lastname(class_="form-control") }}
+                        {{ form.voice_emotion_logic_accent.label }}
+                        {{ form.voice_emotion_logic_accent(class_="form-control") }}
 
-                        {% if form.lastname.errors %}
+                        {% if form.voice_emotion_logic_accent.errors %}
                             <div class="alert alert-danger" role="alert">
-                                {% for message in form.lastname.errors %}
+                                {% for message in form.voice_emotion_logic_accent.errors %}
                                     <div>{{ message }}</div>
                                 {% endfor %}
                             </div>

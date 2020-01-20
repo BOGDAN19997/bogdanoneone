@@ -3,7 +3,7 @@ CREATE TABLE Voice_Patterns (
 	Voice_body varchar(30) UNIQUE NOT NULL,
 	Voice_data varchar(50) NOT NULL,
 	Email varchar(50) UNIQUE NOT NULL,
-	Lastname varchar(30), 
+	Voice_emotion_logic_accent varchar(30), 
 	Firstname varchar(30),
 	Created timestamp
 );

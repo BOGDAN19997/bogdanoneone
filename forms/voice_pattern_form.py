@@ -17,8 +17,8 @@ class CreateVoice_Pattern(FlaskForm):
         validators.DataRequired("Please enter your Email.")
 
     ])
-    lastname = StringField("Lastname: ", [
-        validators.DataRequired("Please enter your Lastname.")
+    voice_emotion_logic_accent = StringField("Voice_emotion_logic_accent: ", [
+        validators.DataRequired("Please enter your Voice_emotion_logic_accent.")
 
     ])
 
@@ -44,8 +44,8 @@ class EditVoice_Pattern(FlaskForm):
         validators.DataRequired("Please enter your Email.")
 
     ])
-    lastname = StringField("Lastname: ", [
-        validators.DataRequired("Please enter your Lastname.")
+    voice_emotion_logic_accent = StringField("Voice_emotion_logic_accent: ", [
+        validators.DataRequired("Please enter your Voice_emotion_logic_accent.")
 
     ])
 

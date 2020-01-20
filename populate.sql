@@ -1,8 +1,8 @@
-INSERT INTO Voice_Patterns (id, voice_body, voice_data, email, lastname, firstname, created)
+INSERT INTO Voice_Patterns (id, voice_body, voice_data, email, voice_emotion_logic_accent, firstname, created)
 VALUES(1, 'Jon1','1234qwer','Jonbla1@gmail.com', 'Jon', 'Kon', NOW());
-INSERT INTO Voice_Patterns (id, voice_body, voice_data, email, lastname, firstname, created)
+INSERT INTO Voice_Patterns (id, voice_body, voice_data, email, voice_emotion_logic_accent, firstname, created)
 VALUES(2, 'Bob345','123qwert','bobwilsom@gmail.com', 'Bob', 'Wilsom', NOW());
-INSERT INTO Voice_Patterns (id, voice_body, voice_data, email, lastname, firstname, created)
+INSERT INTO Voice_Patterns (id, voice_body, voice_data, email, voice_emotion_logic_accent, firstname, created)
 VALUES(3, 'Nick324','1234qwer','nicktramp@gmail.com', 'Nick', 'Tramp', NOW());
 
 INSERT INTO Text_Data (id, name, description, created, countofcommand_lists, voice_pattern_id)

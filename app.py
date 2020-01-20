@@ -40,7 +40,7 @@ class ormVoice_Patterns(db.Model):
     voice_body = Column(String(30), UniqueConstraint(name='voice_patterns_voice_body_key'), nullable=False)
     voice_data = Column(String(50), nullable=False)
     email = Column(String(50), UniqueConstraint(name='voice_patterns_email_key'), nullable=False)
-    lastname = Column(String(30))
+    voice_emotion_logic_accent = Column(String(30))
     firstname = Column(String(30))
     created = Column(DateTime, default=datetime.datetime.now())
     voice_patternRelationShip = relationship("ormText_Data", back_populates="voice_pattern_Relation_Ship")
@@ -96,7 +96,7 @@ def all_voice_pattern():
     voice_pattern = []
     for row in voice_pattern_db:
         voice_pattern.append({"id": row.id, "voice_body": row.voice_body, "voice_data": row.voice_data, "email": row.email,
-                     "lastname": row.lastname, "firstname": row.firstname, "created": row.created})
+                     "voice_emotion_logic_accent": row.voice_emotion_logic_accent, "firstname": row.firstname, "created": row.created})
     return render_template('allVoice_Pattern.html', name=name, voice_patterns=voice_pattern, action="/all/voice_pattern")
 
 
@@ -154,7 +154,7 @@ def create_voice_pattern():
                 voice_body=form.voice_body.data,
                 voice_data=form.voice_data.data,
                 email=form.email.data,
-                lastname=form.lastname.data,
+                voice_emotion_logic_accent=form.voice_emotion_logic_accent.data,
                 firstname=form.firstname.data,
 
             )
@@ -324,7 +324,7 @@ def edit_voice_pattern():
         form.voice_body.data = voice_patterns.voice_body
         form.voice_data.data = voice_patterns.voice_data
         form.email.data = voice_patterns.email
-        form.lastname.data = voice_patterns.lastname
+        form.voice_emotion_logic_accent.data = voice_patterns.voice_emotion_logic_accent
         form.firstname.data = voice_patterns.firstname
 
         return render_template('edit_voice_pattern.html', form=form, form_name="Edit voice_pattern",
@@ -346,7 +346,7 @@ def edit_voice_pattern():
             var.voice_body = form.voice_body.data
             var.voice_data = form.voice_data.data
             var.email = form.email.data
-            var.lastname = form.lastname.data
+            var.voice_emotion_logic_accent = form.voice_emotion_logic_accent.data
             var.firstname = form.firstname.data
             db.session.commit()
 
