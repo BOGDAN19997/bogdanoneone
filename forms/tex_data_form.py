@@ -5,8 +5,8 @@ from wtforms.validators import DataRequired, NumberRange
 
 
 class CreateTex_data(FlaskForm):
-    name = StringField("Name: ", [
-        validators.DataRequired("Please enter tex_data Name.")
+    taglist_check = StringField("Taglist_check: ", [
+        validators.DataRequired("Please enter tex_data Taglist_check.")
 
     ])
     description = StringField("Description: ", [
@@ -27,8 +27,8 @@ class CreateTex_data(FlaskForm):
 
 
 class EditTex_data(FlaskForm):
-    name = StringField("Name: ", [
-        validators.DataRequired("Please enter tex_data Name.")
+    taglist_check = StringField("Taglist_check: ", [
+        validators.DataRequired("Please enter tex_data Taglist_check.")
 
     ])
     description = StringField("Description: ", [

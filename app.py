@@ -20,7 +20,7 @@ from sklearn.preprocessing import StandardScaler
 import numpy as np
 from neupy import algorithms
 
-app = Flask(__name__)
+app = Flask(__taglist_check__)
 app.secret_key = 'key'
 
 ENV = 'prod'
@@ -35,11 +35,11 @@ db = SQLAlchemy(app)
 
 
 class ormVoice_Patterns(db.Model):
-    __tablename__ = 'voice_patterns'
+    __tabletaglist_check__ = 'voice_patterns'
     id = Column(Integer, Sequence('voice_patterns_id_seq', start=1, increment=1), primary_key=True)
-    voice_body = Column(String(30), UniqueConstraint(name='voice_patterns_voice_body_key'), nullable=False)
+    voice_body = Column(String(30), UniqueConstraint(taglist_check='voice_patterns_voice_body_key'), nullable=False)
     voice_data = Column(String(50), nullable=False)
-    voice_hmm = Column(String(50), UniqueConstraint(name='voice_patterns_voice_hmm_key'), nullable=False)
+    voice_hmm = Column(String(50), UniqueConstraint(taglist_check='voice_patterns_voice_hmm_key'), nullable=False)
     voice_emotion_logic_accent = Column(String(30))
     voice_similar_words = Column(String(30))
     created = Column(DateTime, default=datetime.datetime.now())
@@ -47,9 +47,9 @@ class ormVoice_Patterns(db.Model):
 
 
 class ormText_Data(db.Model):
-    __tablename__ = 'text_data'
+    __tabletaglist_check__ = 'text_data'
     id = Column(Integer, Sequence('text_data_id_seq', start=1, increment=1), primary_key=True)
-    name = Column(String(30), nullable=False)
+    taglist_check = Column(String(30), nullable=False)
     description = Column(Text)
     created = Column(DateTime, default=datetime.datetime.now())
     countofcommand_lists = Column(Integer, CheckConstraint('countofcommand_lists >= 0'), nullable=False, default=0)
@@ -59,9 +59,9 @@ class ormText_Data(db.Model):
 
 
 class ormCommand_List(db.Model):
-    __tablename__ = 'command_list'
+    __tabletaglist_check__ = 'command_list'
     id = Column(Integer, Sequence('command_list_id_seq', start=1, increment=1), primary_key=True)
-    name = Column(String(30), nullable=False)
+    taglist_check = Column(String(30), nullable=False)
     description = Column(Text)
     created = Column(DateTime, default=datetime.datetime.now())
     countofcommands = Column(Integer, CheckConstraint('countofcommands >= 0'), nullable=False, default=0)
@@ -71,9 +71,9 @@ class ormCommand_List(db.Model):
 
 
 class ormCommands(db.Model):
-    __tablename__ = 'commands'
+    __tabletaglist_check__ = 'commands'
     id = Column(Integer, Sequence('commands_id_seq', start=1, increment=1), primary_key=True)
-    name = Column(String(30), nullable=False)
+    taglist_check = Column(String(30), nullable=False)
     command_body = Column(Text)
     expansion = Column(String(10), nullable=False)
     versions = Column(String(30), nullable=False, default='1.0')
@@ -91,47 +91,47 @@ def hello_world():
 
 @app.route('/all/voice_pattern')
 def all_voice_pattern():
-    name = "voice_pattern"
+    taglist_check = "voice_pattern"
     voice_pattern_db = db.session.query(ormVoice_Patterns).all()
     voice_pattern = []
     for row in voice_pattern_db:
         voice_pattern.append({"id": row.id, "voice_body": row.voice_body, "voice_data": row.voice_data, "voice_hmm": row.voice_hmm,
                      "voice_emotion_logic_accent": row.voice_emotion_logic_accent, "voice_similar_words": row.voice_similar_words, "created": row.created})
-    return render_template('allVoice_Pattern.html', name=name, voice_patterns=voice_pattern, action="/all/voice_pattern")
+    return render_template('allVoice_Pattern.html', taglist_check=taglist_check, voice_patterns=voice_pattern, action="/all/voice_pattern")
 
 
 @app.route('/all/tex_data')
 def all_tex_data():
-    name = "tex_data"
+    taglist_check = "tex_data"
     tex_data_db = db.session.query(ormText_Data).all()
     tex_data = []
     for row in tex_data_db:
-        tex_data.append({"id": row.id, "name": row.name, "description": row.description, "created": row.created,
+        tex_data.append({"id": row.id, "taglist_check": row.taglist_check, "description": row.description, "created": row.created,
                            "countofcommand_lists": row.countofcommand_lists, "voice_pattern_id": row.voice_pattern_id})
-    return render_template('allTex_data.html', name=name, tex_data=tex_data, action="/all/tex_data")
+    return render_template('allTex_data.html', taglist_check=taglist_check, tex_data=tex_data, action="/all/tex_data")
 
 
 @app.route('/all/command_list')
 def all_command_list():
-    name = "command_list"
+    taglist_check = "command_list"
     command_list_db = db.session.query(ormCommand_List).all()
     command_list = []
     for row in command_list_db:
-        command_list.append({"id": row.id, "name": row.name, "description": row.description, "created": row.created,
+        command_list.append({"id": row.id, "taglist_check": row.taglist_check, "description": row.description, "created": row.created,
                         "countofcommands": row.countofcommands, "text_data_id": row.text_data_id})
-    return render_template('allCommand_List.html', name=name, command_list=command_list, action="/all/command_list")
+    return render_template('allCommand_List.html', taglist_check=taglist_check, command_list=command_list, action="/all/command_list")
 
 
 @app.route('/all/command')
 def all_command():
-    name = "command"
+    taglist_check = "command"
     command_db = db.session.query(ormCommands).all()
     command = []
     for row in command_db:
-        command.append({"id": row.id, "name": row.name, "command_body": row.command_body, "expansion": row.expansion,
+        command.append({"id": row.id, "taglist_check": row.taglist_check, "command_body": row.command_body, "expansion": row.expansion,
                      "versions": row.versions,
                      "created": row.created, "rating": row.rating, "command_list_id": row.command_list_id})
-    return render_template('allCommand.html', name=name, command=command, action="/all/command")
+    return render_template('allCommand.html', taglist_check=taglist_check, command=command, action="/all/command")
 
 
 @app.route('/create/voice_pattern', methods=['GET', 'POST'])
@@ -140,7 +140,7 @@ def create_voice_pattern():
 
     if request.method == 'POST':
         if form.validate() == False:
-            return render_template('create_voice_pattern.html', form=form, form_name="New voice_pattern", action="create/voice_pattern")
+            return render_template('create_voice_pattern.html', form=form, form_taglist_check="New voice_pattern", action="create/voice_pattern")
         else:
 
             ids = db.session.query(ormVoice_Patterns).all()
@@ -165,7 +165,7 @@ def create_voice_pattern():
             else:
                 form.voice_body.errors = "this voice_pattern already exists"
 
-    return render_template('create_voice_pattern.html', form=form, form_name="New voice_pattern", action="create/voice_pattern")
+    return render_template('create_voice_pattern.html', form=form, form_taglist_check="New voice_pattern", action="create/voice_pattern")
 
 
 @app.route('/create/tex_data', methods=['GET', 'POST'])
@@ -174,7 +174,7 @@ def create_tex_data():
 
     if request.method == 'POST':
         if form.validate() == False:
-            return render_template('create_tex_data.html', form=form, form_name="New tex_data",
+            return render_template('create_tex_data.html', form=form, form_taglist_check="New tex_data",
                                    action="create/tex_data")
         else:
 
@@ -186,7 +186,7 @@ def create_tex_data():
 
             new_var = ormText_Data(
 
-                name=form.name.data,
+                taglist_check=form.taglist_check.data,
                 description=form.description.data,
                 countofcommand_lists=form.countofcommand_lists.data,
                 voice_pattern_id=form.voice_pattern_id.data
@@ -196,7 +196,7 @@ def create_tex_data():
                 db.session.commit()
                 return redirect(url_for('all_tex_data'))
 
-    return render_template('create_tex_data.html', form=form, form_name="New tex_data", action="create/tex_data")
+    return render_template('create_tex_data.html', form=form, form_taglist_check="New tex_data", action="create/tex_data")
 
 
 @app.route('/create/command_list', methods=['GET', 'POST'])
@@ -205,7 +205,7 @@ def create_command_list():
 
     if request.method == 'POST':
         if form.validate() == False:
-            return render_template('create_command_list.html', form=form, form_name="New command_list", action="create/command_list")
+            return render_template('create_command_list.html', form=form, form_taglist_check="New command_list", action="create/command_list")
         else:
 
             ids = db.session.query(ormText_Data).all()
@@ -216,7 +216,7 @@ def create_command_list():
 
             new_var = ormCommand_List(
 
-                name=form.name.data,
+                taglist_check=form.taglist_check.data,
                 description=form.description.data,
                 countofcommands=form.countofcommands.data,
                 text_data_id=form.text_data_id.data
@@ -226,7 +226,7 @@ def create_command_list():
                 db.session.commit()
                 return redirect(url_for('all_command_list'))
 
-    return render_template('create_command_list.html', form=form, form_name="New command_list", action="create/command_list")
+    return render_template('create_command_list.html', form=form, form_taglist_check="New command_list", action="create/command_list")
 
 
 @app.route('/create/command', methods=['GET', 'POST'])
@@ -235,7 +235,7 @@ def create_command():
 
     if request.method == 'POST':
         if form.validate() == False:
-            return render_template('create_command.html', form=form, form_name="New command", action="create/command")
+            return render_template('create_command.html', form=form, form_taglist_check="New command", action="create/command")
         else:
 
             ids = db.session.query(ormCommand_List).all()
@@ -246,7 +246,7 @@ def create_command():
 
             new_var = ormCommands(
 
-                name=form.name.data,
+                taglist_check=form.taglist_check.data,
                 command_body=form.command_body.data,
                 expansion=form.expansion.data,
                 versions=form.versions.data,
@@ -258,7 +258,7 @@ def create_command():
                 db.session.commit()
                 return redirect(url_for('all_command'))
 
-    return render_template('create_command.html', form=form, form_name="New command", action="create/command")
+    return render_template('create_command.html', form=form, form_taglist_check="New command", action="create/command")
 
 
 @app.route('/delete/voice_pattern', methods=['GET'])
@@ -327,14 +327,14 @@ def edit_voice_pattern():
         form.voice_emotion_logic_accent.data = voice_patterns.voice_emotion_logic_accent
         form.voice_similar_words.data = voice_patterns.voice_similar_words
 
-        return render_template('edit_voice_pattern.html', form=form, form_name="Edit voice_pattern",
+        return render_template('edit_voice_pattern.html', form=form, form_taglist_check="Edit voice_pattern",
                                action="edit/voice_pattern?id=" + id)
 
 
     else:
 
         if form.validate() == False:
-            return render_template('edit_voice_pattern.html', form=form, form_name="Edit voice_pattern", action="edit/voice_pattern?id=" + id)
+            return render_template('edit_voice_pattern.html', form=form, form_taglist_check="Edit voice_pattern", action="edit/voice_pattern?id=" + id)
         else:
 
             # find voice_pattern
@@ -361,18 +361,18 @@ def edit_tex_data():
 
         tex_data = db.session.query(ormText_Data).filter(ormText_Data.id == id).one()
 
-        form.name.data = tex_data.name
+        form.taglist_check.data = tex_data.taglist_check
         form.description.data = tex_data.description
         form.countofcommand_lists.data = tex_data.countofcommand_lists
 
-        return render_template('edit_tex_data.html', form=form, form_name="Edit tex_data",
+        return render_template('edit_tex_data.html', form=form, form_taglist_check="Edit tex_data",
                                action="edit/tex_data?id=" + id)
 
 
     else:
 
         if form.validate() == False:
-            return render_template('edit_tex_data.html', form=form, form_name="Edit tex_data",
+            return render_template('edit_tex_data.html', form=form, form_taglist_check="Edit tex_data",
                                    action="edit/tex_data?id=" + id)
         else:
 
@@ -382,7 +382,7 @@ def edit_tex_data():
 
             # update fields from form data
 
-            var.name = form.name.data
+            var.taglist_check = form.taglist_check.data
             var.description = form.description.data
             var.countofcommand_lists = form.countofcommand_lists.data
             db.session.commit()
@@ -398,18 +398,18 @@ def edit_command_list():
 
         command_list = db.session.query(ormCommand_List).filter(ormCommand_List.id == id).one()
 
-        form.name.data = command_list.name
+        form.taglist_check.data = command_list.taglist_check
         form.description.data = command_list.description
         form.countofcommands.data = command_list.countofcommands
 
-        return render_template('edit_command_list.html', form=form, form_name="Edit command_list",
+        return render_template('edit_command_list.html', form=form, form_taglist_check="Edit command_list",
                                action="edit/command_list?id=" + id)
 
 
     else:
 
         if form.validate() == False:
-            return render_template('edit_command_list.html', form=form, form_name="Edit command_list", action="edit/command_list?id=" + id)
+            return render_template('edit_command_list.html', form=form, form_taglist_check="Edit command_list", action="edit/command_list?id=" + id)
         else:
 
             # find voice_pattern
@@ -418,7 +418,7 @@ def edit_command_list():
 
             # update fields from form data
 
-            var.name = form.name.data
+            var.taglist_check = form.taglist_check.data
             var.description = form.description.data
             var.countofcommands = form.countofcommands.data
             db.session.commit()
@@ -434,19 +434,19 @@ def edit_command():
 
         command = db.session.query(ormCommands).filter(ormCommands.id == id).one()
 
-        form.name.data = command.name
+        form.taglist_check.data = command.taglist_check
         form.command_body.data = command.command_body
         form.versions.data = command.versions
         form.rating.data = command.rating
 
-        return render_template('edit_command.html', form=form, form_name="Edit command",
+        return render_template('edit_command.html', form=form, form_taglist_check="Edit command",
                                action="edit/command?id=" + id)
 
 
     else:
 
         if form.validate() == False:
-            return render_template('edit_command.html', form=form, form_name="Edit command", action="edit/command?id=" + id)
+            return render_template('edit_command.html', form=form, form_taglist_check="Edit command", action="edit/command?id=" + id)
         else:
 
             # find voice_pattern
@@ -455,7 +455,7 @@ def edit_command():
 
             # update fields from form data
 
-            var.name = form.name.data
+            var.taglist_check = form.taglist_check.data
             var.command_body = form.command_body.data
             var.versions = form.versions.data
             var.rating = form.rating.data
@@ -507,10 +507,10 @@ def dashboard():
 def claster():
     df = pd.DataFrame()
 
-    for name, expansion in db.session.query(ormCommand_List.name, ormCommands.expansion).join(ormCommands,
+    for taglist_check, expansion in db.session.query(ormCommand_List.taglist_check, ormCommands.expansion).join(ormCommands,
                                                                                       ormCommand_List.id == ormCommands.command_list_id):
-        print(name, expansion)
-        df = df.append({"name": name, "expansion": expansion}, ignore_index=True)
+        print(taglist_check, expansion)
+        df = df.append({"taglist_check": taglist_check, "expansion": expansion}, ignore_index=True)
 
     X = pd.get_dummies(data=df)
     print(X)
@@ -572,7 +572,7 @@ def correlation():
         y=count_fl,
         mode = 'markers',
         marker_color='rgba(255, 0, 0, 100)',
-        name = "data"
+        taglist_check = "data"
     )
     x_line = np.linspace(0, 10)
     y_line = x_line * reg.coef_[0, 0] + reg.intercept_[0]
@@ -581,7 +581,7 @@ def correlation():
         y=y_line,
         mode = 'lines',
         marker_color='rgba(0, 0, 255, 100)',
-        name = "regretion"
+        taglist_check = "regretion"
     )
     data = [scatter, line]
     graphsJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
@@ -593,10 +593,10 @@ def clasification():
     df = pd.DataFrame()
     for command_body, rating in db.session.query(ormCommands.command_body, ormCommands.rating):
         print(command_body, rating)
-        df = df.append({"command_name": command_body, "rating": float(rating)}, ignore_index=True)
+        df = df.append({"command_taglist_check": command_body, "rating": float(rating)}, ignore_index=True)
     # db.session.close()
 
-    df['count_symbols'] = df['command_name'].apply(len)
+    df['count_symbols'] = df['command_taglist_check'].apply(len)
     df.loc[df['rating'] < 0.33, 'quality'] = 0
     df.loc[df['rating'] >= 0.33, 'quality'] = 1
     print(df)
@@ -622,17 +622,17 @@ def search():
     if request.method == 'POST':
         if not form.validate():
 
-            return render_template('search.html', form=form, form_name="Search", action="search")
+            return render_template('search.html', form=form, form_taglist_check="Search", action="search")
         else:
             list_event.clear()
-            for id, name, Expansion in db.session.query(ormCommands.id, ormCommands.name, ormCommands.expansion
+            for id, taglist_check, Expansion in db.session.query(ormCommands.id, ormCommands.taglist_check, ormCommands.expansion
                                                         ):
-                if name == form.nameOfCommand_List.data and Expansion == form.Expansion.data:
+                if taglist_check == form.taglist_checkOfCommand_List.data and Expansion == form.Expansion.data:
                     list_event.append(id)
 
             return redirect(url_for('searchList'))
 
-    return render_template('search.html', form=form, form_name="Search", action="search")
+    return render_template('search.html', form=form, form_taglist_check="Search", action="search")
 
 @app.route('/search/result')
 def searchList():
@@ -647,6 +647,6 @@ def searchList():
         print("don't data")
     print(list_event)
 
-    return render_template('search_list_event.html', name="result", results=res, action="/search/result")
-if __name__ == '__main__':
+    return render_template('search_list_event.html', taglist_check="result", results=res, action="/search/result")
+if __taglist_check__ == '__main__':
     app.run()

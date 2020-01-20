@@ -10,7 +10,7 @@ CREATE TABLE Voice_Patterns (
 
 CREATE TABLE Text_Data ( 
 	ID SERIAL PRIMARY KEY,
-	Name varchar(30) NOT NULL,
+	Taglist_check varchar(30) NOT NULL,
 	Description text, 
 	Created timestamp,
 	CountOfCommand_Lists int NOT NULL DEFAULT 0,
@@ -20,7 +20,7 @@ CREATE TABLE Text_Data (
 
 CREATE TABLE Command_List ( 
 	ID SERIAL PRIMARY KEY,
-	Name varchar(30) NOT NULL,
+	Taglist_check varchar(30) NOT NULL,
 	Description text, 
 	Created timestamp,
 	CountOfCommands int NOT NULL DEFAULT 0,
@@ -32,7 +32,7 @@ CREATE TABLE Command_List (
 
 CREATE TABLE Commands ( 
 	ID SERIAL PRIMARY KEY,
-	Name varchar(30) NOT NULL,
+	Taglist_check varchar(30) NOT NULL,
 	Command_body text,
 	Expansion varchar(10) NOT NULL,
 	Versions varchar(30) NOT NULL DEFAULT '1.0', 

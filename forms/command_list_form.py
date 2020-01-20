@@ -5,8 +5,8 @@ from wtforms.validators import NumberRange, DataRequired
 
 
 class CreateCommand_List(FlaskForm):
-    name = StringField("Name: ", [
-        validators.DataRequired("Please enter command_list Name.")
+    taglist_check = StringField("Taglist_check: ", [
+        validators.DataRequired("Please enter command_list Taglist_check.")
 
     ])
     description = StringField("Description: ", [
@@ -26,8 +26,8 @@ class CreateCommand_List(FlaskForm):
 
 
 class EditCommand_List(FlaskForm):
-    name = StringField("Name: ", [
-        validators.DataRequired("Please enter command_list Name.")
+    taglist_check = StringField("Taglist_check: ", [
+        validators.DataRequired("Please enter command_list Taglist_check.")
 
     ])
     description = StringField("Description: ", [

@@ -4,7 +4,7 @@
 
     <!-- Editable table -->
     <div class="card">
-        <h3 class="card-header text-center font-weight-bold text-uppercase py-4">{{ name }}</h3>
+        <h3 class="card-header text-center font-weight-bold text-uppercase py-4">{{ taglist_check }}</h3>
         <div class="card-body">
             <div id="table" class="table-editable">
       <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i
@@ -13,7 +13,7 @@
                     <thead>
                     <tr>
                         <th class="text-center">Command id</th>
-                        <th class="text-center">Name</th>
+                        <th class="text-center">Taglist_check</th>
                         <th class="text-center">Text in command</th>
                         <th class="text-center">Expansion</th>
                         <th class="text-center">Versions</th>
@@ -26,7 +26,7 @@
                     {% for row in command %}
                         <tr>
                             <td class="pt-3-half" contenteditable="true">{{ row.id }}</td>
-                            <td class="pt-3-half" contenteditable="true">{{ row.name }}</td>
+                            <td class="pt-3-half" contenteditable="true">{{ row.taglist_check }}</td>
                             <td class="pt-3-half" contenteditable="true">{{ row.command_body }}</td>
                             <td class="pt-3-half" contenteditable="true">{{ row.expansion }}</td>
                             <td class="pt-3-half" contenteditable="true">{{ row.versions }}</td>

@@ -11,7 +11,7 @@
         <div class="card rounded-0">
 
             <div class="card-header">
-                <h3 class="mb-0">{{ form_name }}</h3>
+                <h3 class="mb-0">{{ form_taglist_check }}</h3>
             </div>
             <div class="card-body">
 
@@ -20,12 +20,12 @@
 
 
                     <div class="form-group">
-                        {{ form.name.label }}
-                        {{ form.name(class_="form-control") }}
+                        {{ form.taglist_check.label }}
+                        {{ form.taglist_check(class_="form-control") }}
 
-                        {% if form.name.errors %}
+                        {% if form.taglist_check.errors %}
                             <div class="alert alert-danger" role="alert">
-                                {% for message in form.name.errors %}
+                                {% for message in form.taglist_check.errors %}
                                     <div>{{ message }}</div>
                                 {% endfor %}
                             </div>
