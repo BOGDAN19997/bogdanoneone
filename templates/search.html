@@ -7,11 +7,11 @@
 
 <div class="col-md-6 mx-auto">
 
-    <!-- form card voice_body -->
+    <!-- form card login -->
     <div class="card rounded-0">
 
         <div class="card-header">
-            <h3 class="mb-0">{{form_taglist_check}}</h3>
+            <h3 class="mb-0">{{form_name}}</h3>
         </div>
         <div class="card-body">
 
@@ -19,12 +19,12 @@
                 {{ form.hidden_tag() }}
 
              <div class="form-group">
-                {{ form.taglist_checkOfCommand_List.label }}
-                {{ form.taglist_checkOfCommand_List(class_="form-control") }}
+                {{ form.nameOfCommand_List.label }}
+                {{ form.nameOfCommand_List(class_="form-control") }}
 
-                {% if form.taglist_checkOfCommand_List.errors%}
+                {% if form.nameOfCommand_List.errors%}
                     <div class="alert alert-danger" role="alert">
-                        {% for message in form.taglist_checkOfCommand_List.errors %}
+                        {% for message in form.nameOfCommand_List.errors %}
                              <div>{{ message }}</div>
                         {% endfor %}
                     </div>
@@ -56,7 +56,7 @@
         </div>
         <!--/card-block-->
     </div>
-    <!-- /form card voice_body -->
+    <!-- /form card login -->
 
 </div>
 
