@@ -5,7 +5,7 @@ from wtforms import validators
 
 class CreateQuery(FlaskForm):
 
-    nameOfCommand_List = StringField("nameOfCommand_List: ", [validators.DataRequired("Please enter your nameOfCommand_List.")])
-    Expansion = StringField("Expansion: ", [validators.DataRequired("Please enter your Expansion.")])
+    nameOfCommand_List = StringField("Name of Command List: ", [validators.DataRequired("Please enter your name of Command_List.")])
+    Expansion = StringField("Expansion: ", [validators.DataRequired("Please enter current command expansion.")])
     submit = SubmitField("Search")
 
