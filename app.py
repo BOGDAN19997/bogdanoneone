@@ -140,7 +140,7 @@ def create_voice_pattern():
 
     if request.method == 'POST':
         if form.validate() == False:
-            return render_template('create_voice_pattern.html', form=form, form_name="New voice_pattern", action="create/voice_pattern")
+            return render_template('create_voice_pattern.html', form=form, form_name="New voice pattern", action="create/voice_pattern")
         else:
 
             ids = db.session.query(ormVoice_Patterns).all()
@@ -163,9 +163,9 @@ def create_voice_pattern():
                 db.session.commit()
                 return redirect(url_for('all_voice_pattern'))
             else:
-                form.voice_body.errors = "this voice_pattern already exists"
+                form.voice_body.errors = "this voice pattern already exists"
 
-    return render_template('create_voice_pattern.html', form=form, form_name="New voice_pattern", action="create/voice_pattern")
+    return render_template('create_voice_pattern.html', form=form, form_name="New voice pattern", action="create/voice_pattern")
 
 
 @app.route('/create/tex_data', methods=['GET', 'POST'])
@@ -174,7 +174,7 @@ def create_tex_data():
 
     if request.method == 'POST':
         if form.validate() == False:
-            return render_template('create_tex_data.html', form=form, form_name="New tex_data",
+            return render_template('create_tex_data.html', form=form, form_name="New text data",
                                    action="create/tex_data")
         else:
 
@@ -196,7 +196,7 @@ def create_tex_data():
                 db.session.commit()
                 return redirect(url_for('all_tex_data'))
 
-    return render_template('create_tex_data.html', form=form, form_name="New tex_data", action="create/tex_data")
+    return render_template('create_tex_data.html', form=form, form_name="New text data", action="create/tex_data")
 
 
 @app.route('/create/command_list', methods=['GET', 'POST'])
@@ -205,7 +205,7 @@ def create_command_list():
 
     if request.method == 'POST':
         if form.validate() == False:
-            return render_template('create_command_list.html', form=form, form_name="New command_list", action="create/command_list")
+            return render_template('create_command_list.html', form=form, form_name="New command list", action="create/command_list")
         else:
 
             ids = db.session.query(ormText_Data).all()
@@ -226,7 +226,7 @@ def create_command_list():
                 db.session.commit()
                 return redirect(url_for('all_command_list'))
 
-    return render_template('create_command_list.html', form=form, form_name="New command_list", action="create/command_list")
+    return render_template('create_command_list.html', form=form, form_name="New command list", action="create/command_list")
 
 
 @app.route('/create/command', methods=['GET', 'POST'])
@@ -327,14 +327,14 @@ def edit_voice_pattern():
         form.voice_emotion_logic_accent.data = voice_patterns.voice_emotion_logic_accent
         form.voice_similar_words.data = voice_patterns.voice_similar_words
 
-        return render_template('edit_voice_pattern.html', form=form, form_name="Edit voice_pattern",
+        return render_template('edit_voice_pattern.html', form=form, form_name="Edit voice pattern",
                                action="edit/voice_pattern?id=" + id)
 
 
     else:
 
         if form.validate() == False:
-            return render_template('edit_voice_pattern.html', form=form, form_name="Edit voice_pattern", action="edit/voice_pattern?id=" + id)
+            return render_template('edit_voice_pattern.html', form=form, form_name="Edit voice pattern", action="edit/voice_pattern?id=" + id)
         else:
 
             # find voice_pattern
@@ -365,14 +365,14 @@ def edit_tex_data():
         form.full_body.data = tex_data.full_body
         form.countofcommand_lists.data = tex_data.countofcommand_lists
 
-        return render_template('edit_tex_data.html', form=form, form_name="Edit tex_data",
+        return render_template('edit_tex_data.html', form=form, form_name="Edit text data",
                                action="edit/tex_data?id=" + id)
 
 
     else:
 
         if form.validate() == False:
-            return render_template('edit_tex_data.html', form=form, form_name="Edit tex_data",
+            return render_template('edit_tex_data.html', form=form, form_name="Edit text data",
                                    action="edit/tex_data?id=" + id)
         else:
 
@@ -402,14 +402,14 @@ def edit_command_list():
         form.full_body.data = command_list.full_body
         form.countofcommands.data = command_list.countofcommands
 
-        return render_template('edit_command_list.html', form=form, form_name="Edit command_list",
+        return render_template('edit_command_list.html', form=form, form_name="Edit command list",
                                action="edit/command_list?id=" + id)
 
 
     else:
 
         if form.validate() == False:
-            return render_template('edit_command_list.html', form=form, form_name="Edit command_list", action="edit/command_list?id=" + id)
+            return render_template('edit_command_list.html', form=form, form_name="Edit command list", action="edit/command_list?id=" + id)
         else:
 
             # find voice_pattern
